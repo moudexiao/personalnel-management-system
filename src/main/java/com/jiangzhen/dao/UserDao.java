@@ -1,14 +1,27 @@
 package com.jiangzhen.dao;
 
 import com.jiangzhen.po.UserPo;
+import com.jiangzhen.vo.UserVo;
 import org.springframework.stereotype.Repository;
 
-/**
- * @author: zhaoyiming
- * @date: 2022-01-07 11:41
- */
+import java.util.List;
+
 @Repository
 public interface UserDao {
 
-    void addUser(UserPo user);
+    int save(UserPo user);
+
+    int update(UserPo user);
+
+    int deleteById(Long id);
+
+    int batchDelete(List<Long> ids);
+
+    UserPo findByUsername(String username);
+
+    UserPo findById(Long id);
+
+    List<UserPo> findByRoleId(Long roleId);
+
+    List<UserVo> findAll();
 }

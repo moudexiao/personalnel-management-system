@@ -6,37 +6,78 @@
 <mapper namespace="com.jiangzhen.dao.UserDao">
     <resultMap type="com.jiangzhen.po.UserPo" id="userMap">
         <result column="id" property="id"/>
-        <result column="createTime" property="createTime"/>
-        <result column="updateTime" property="updateTime"/>
-        <result column="name" property="name"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="role_id" property="roleId"/>
     </resultMap>
 
-    <insert id="addUser" parameterType="com.jiangzhen.po.UserPo" useGeneratedKeys="true" keyProperty="id">
-    insert into user (name) values (#{name})
+    <sql id="Base_Column_List">
+        id, create_time, update_time, username, password, salt, role_id
+    </sql>
+
+    <insert id="save" parameterType="com.jiangzhen.po.UserPo" useGeneratedKeys="true" keyProperty="id">
+     insert into user (create_time, update_time, username, password, salt, role_id)
+        values (#{create_time}, #{update_time}, #{username}, #{password}, #{salt},#{roleId})
     </insert>
 
-    <!--<select id="getUser" resultMap="usermap">-->
-    <!--select * from users-->
-    <!--</select>-->
-    <!--<insert id="insert">-->
-    <!--insert into users (id, name, funkyNumber, roundingMode) values (-->
-    <!--#{id}, #{name}, #{funkyNumber}, #{roundingMode}-->
-    <!--)-->
-    <!--</insert>-->
+    <update id="update" parameterType="com.jiangzhen.po.UserPo">
+        update user
+        <set>
+            <if test="updateTime != null and updateTime != ''">
+                update_time = #{username},
+            </if>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="salt != null and salt != ''">
+                salt = #{salt},
+            </if>
+            <if test="roleId != null and roleId != ''">
+                role_id = #{roleId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 
-    <!--<resultMap type="org.apache.ibatis.submitted.rounding.User" id="usermap2">-->
-    <!--<id column="id" property="id"/>-->
-    <!--<result column="name" property="name"/>-->
-    <!--<result column="funkyNumber" property="funkyNumber"/>-->
-    <!--<result column="roundingMode" property="roundingMode" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>-->
-    <!--</resultMap>-->
-    <!--<select id="getUser2" resultMap="usermap2">-->
-    <!--select * from users2-->
-    <!--</select>-->
-    <!--<insert id="insert2">-->
-    <!--insert into users2 (id, name, funkyNumber, roundingMode) values (-->
-    <!--#{id}, #{name}, #{funkyNumber}, #{roundingMode, typeHandler=org.apache.ibatis.type.EnumTypeHandler}-->
-    <!--)-->
-    <!--</insert>-->
+    <delete id="deleteById">
+        delete from user where id = #{id}
+    </delete>
+
+    <delete id="batchDelete">
+        delete from user
+        where
+        id in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultMap="userMap">
+        select <include refid="Base_Column_List"/>
+         from user where username = #{username}
+    </select>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="userMap">
+        select <include refid="Base_Column_List"/>
+        from user where id = #{id}
+    </select>
+
+    <select id="findByRoleId" parameterType="java.lang.Long" resultMap="userMap">
+        select <include refid="Base_Column_List"/>
+        from user where role_id = #{roleId}
+    </select>
+
+    <select id="findAll" resultType="com.jiangzhen.vo.UserVo">
+        select u.*,
+               r.id as roleId,
+               r.description as roleDescription
+        from user u left join role r on u.role_id = r.id
+    </select>
 
 </mapper>

@@ -8,4 +8,11 @@ import com.jiangzhen.po.UserPo;
  */
 public interface UserService {
     void addUser(UserPo userPo);
+
+    /**
+     * 根据username获取用户
+     * @param username
+     * @return
+     */
+    UserPo findUserByName(String username);
 }
