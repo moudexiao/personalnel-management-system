@@ -5,12 +5,8 @@ import com.jiangzhen.po.UserPo;
 import com.jiangzhen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-/**
- * @author: zhaoyiming
- * @date: 2022-01-07 12:01
- */
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -18,13 +14,17 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    @Transactional
-    public void addUser(UserPo userPo) {
-        userDao.addUser(userPo);
+    public UserPo findByUsername(String username) {
+        return userDao.findByUsername(username);
     }
 
     @Override
-    public UserPo findUserByName(String username) {
-        return userDao.findUserByName(username);
+    public int save(UserPo user) {
+        return userDao.save(user);
+    }
+
+    @Override
+    public int update(UserPo user) {
+        return userDao.update(user);
     }
 }

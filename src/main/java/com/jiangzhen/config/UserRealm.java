@@ -24,13 +24,18 @@ public class UserRealm extends AuthorizingRealm {
     @Autowired
     private RoleDao roleDao;
 
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JWTToken;
+    }
+
     //授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         System.out.println("执行了授权方法");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         UserPo user = (UserPo) principalCollection.getPrimaryPrincipal();
-        RolePo role = roleDao.selectByPrimaryKey(user.getRoleId());
+        RolePo role = roleDao.findById(user.getRoleId());
         authorizationInfo.addRole(role.getName());
         authorizationInfo.addStringPermission(null);
         return authorizationInfo;
@@ -47,7 +52,7 @@ public class UserRealm extends AuthorizingRealm {
         if (username == null) {
             throw new AuthenticationException("token异常");
         }
-        UserPo userBean = userService.findUserByName(username);
+        UserPo userBean = userService.findByUsername(username);
 
         if (!JWTUtils.verify(token, username, userBean.getPassword())) {
             throw new AuthenticationException("密码错误");

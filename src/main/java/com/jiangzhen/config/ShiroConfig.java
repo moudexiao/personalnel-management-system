@@ -36,12 +36,15 @@ public class ShiroConfig {
         filterMap.put("jwt", new JWTFilter());
         factoryBean.setFilters(filterMap);
         Map<String, String> filterRuleMap = new HashMap<>();
-        filterRuleMap.put("/image/**", "anon");
-        filterRuleMap.put("/favicon.ico", "anon");
+        filterRuleMap.put("/user/toLogin", "anon");
         filterRuleMap.put("/user/login", "anon");
+        filterRuleMap.put("/user/image", "anon");
+        filterRuleMap.put("/layuimini/**", "anon");
+//        filterRuleMap.put("/favicon.ico", "anon");
 
         // 所有请求通过我们自己的JWT Filter
         filterRuleMap.put("/**", "jwt");
+//        filterRuleMap.put("/**", "anon");
 
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;
