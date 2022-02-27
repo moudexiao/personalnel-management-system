@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangzhen.dao.RoleDao">
+    <resultMap type="com.jiangzhen.po.RolePo" id="roleMap">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="permission" property="permission"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, create_time, update_time, 'name', description, permission
+    </sql>
+
+    <insert id="save" parameterType="com.jiangzhen.po.RolePo" useGeneratedKeys="true" keyProperty="id">
+        insert into role(create_time, update_time, name, description, permission)
+                    values(#{createTime}, #{updateTime}, #{name}, #{description},#{permission})
+    </insert>
+
+    <update id="update" parameterType="com.jiangzhen.po.RolePo">
+        update role
+        <set>
+            <if test="name != null">
+                `name` = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="permissionId != null">
+                permission = #{permission},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+        delete from role where id = #{id}
+    </delete>
+
+    <delete id="batchDelete">
+        delete from role
+        where id in 
+        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="findById" resultMap="roleMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+        where id = #{id}
+    </select>
+
+    <select id="findAll" resultMap="com.jiangzhen.vo.RoleVo">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+    </select>
+</mapper>

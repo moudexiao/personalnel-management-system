@@ -20,7 +20,7 @@
 
     <insert id="save" parameterType="com.jiangzhen.po.UserPo" useGeneratedKeys="true" keyProperty="id">
      insert into user (create_time, update_time, username, password, salt, role_id)
-        values (#{create_time}, #{update_time}, #{username}, #{password}, #{salt},#{roleId})
+        values (#{createTime}, #{updateTime}, #{username}, #{password}, #{salt},#{roleId})
     </insert>
 
     <update id="update" parameterType="com.jiangzhen.po.UserPo">
