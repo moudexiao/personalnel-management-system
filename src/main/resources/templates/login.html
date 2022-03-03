@@ -193,44 +193,44 @@
         var form = layui.form,
           layer = layui.layer,
           common = layui.common,
-          $ = layui.jquery
+          $ = layui.jquery;
 
-        var timestamp = new Date().getTime()
+        var timestamp = new Date().getTime();
         function getCode() {
           $('#captchaPic').attr(
             'src',
             common.api +
-              '/user/image?timestamp=' +
+              '/image?timestamp=' +
               timestamp +
               '&v=' +
               new Date().getTime()
-          )
+          );
           $('#timestamp').val(timestamp)
         }
 
         layer.ready(function () {
-          getCode()
+          getCode();
 
           $('#captchaPic').click(function () {
             getCode()
           })
-        })
+        });
 
         // 登录过期的时候，跳出ifram框架
-        if (top.location != self.location) top.location = self.location
+        if (top.location !== self.location) top.location = self.location;
 
         // 粒子线条背景
         $(document).ready(function () {
           $('.layui-container').particleground({
             dotColor: '#7ec7fd',
-            lineColor: '#7ec7fd',
+            lineColor: '#7ec7fd'
           })
-        })
+        });
 
         // 进行登录操作
         form.on('submit(login)', function (data) {
-          data = data.field
-          console.log(data)
+          data = data.field;
+          console.log(data);
 
           $.ajax({
             url: common.api + '/user/login',
@@ -239,24 +239,22 @@
             timeout: 5000,
             data: JSON.stringify(data),
             success: function (data) {
-              console.log(data)
-              if (data.code == 200) {
+              console.log(data);
+              if (data.code === 200) {
                 layer.msg('登录成功', { icon: 1 }, function () {
-                  common.setToken(data.data)
-                  window.location = '../index.html'
-                  console.log(common.getToken())
+                  window.location.href = common.api + '/toIndex';
                 })
               } else {
-                getCode()
-                $('#code').val('')
+                getCode();
+                $('#code').val('');
                 layer.msg(data.msg, { icon: 2, time: 1000 })
               }
             },
             error: function (data) {
-              console.log(data)
+              console.log(data);
               layer.msg('服务器异常')
-            },
-          })
+            }
+          });
 
           return false
         })

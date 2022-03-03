@@ -20,12 +20,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -36,14 +36,14 @@ public class UserController {
      */
     private static TimedCache<String, String> cache = CacheUtil.newTimedCache(60 * 1000);
 
-    @RequestMapping("/toLogin")
+    @RequestMapping("/user/toLogin")
     public String toLogin(){
         return "login.html";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     @ResponseBody
-    public ResultVo login(@RequestBody @Valid UserInput input) {
+    public ResultVo login(@RequestBody @Valid UserInput input, HttpServletResponse response) {
         String timestamp = input.getTimestamp();
         if (ObjectUtils.isEmpty(timestamp) || ObjectUtils.isEmpty(input.getCode())) {
             return ResultVo.fail(ResultEnum.CODE_NOT_EXIST);
@@ -64,10 +64,15 @@ public class UserController {
         String token = JWTUtils.sign(username, md5Hash.toHex());
         //登录
         SecurityUtils.getSubject().login(new JWTToken(token));
+        //把token放到浏览器cookie里面去
+        Cookie cookie = new Cookie("token", token);
+        cookie.setMaxAge(60*60*60);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return ResultVo.success(token);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/user/register")
 //    @RequiresRoles("admin")
     public ResultVo add(@RequestBody @Valid UserInput input) {
         String salt = JWTUtils.getSalt();
@@ -87,6 +92,11 @@ public class UserController {
         LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100, 4, 20);
         lineCaptcha.write(response.getOutputStream());
         cache.put(timestamp, lineCaptcha.getCode());
+    }
+
+    @RequestMapping("/toIndex")
+    public String toIndex(){
+        return "index.html";
     }
 
 }

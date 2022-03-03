@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -47,10 +48,16 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
         //完成token登入
         //1.检查请求头中是否含有token
+        String token = null;
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String token = httpServletRequest.getHeader("Authorization");
+        Cookie[] cookies = httpServletRequest.getCookies();
+        for (int i = 0; i < cookies.length; i++) {
+            if ("token".equals(cookies[i].getName())){
+                token = cookies[i].getValue();
+            }
+        }
         //2. 如果客户端没有携带token，拦下请求
-        if (ObjectUtils.isEmpty(token)) {
+        if (token == null) {
             token = httpServletRequest.getParameter("token");
             if (ObjectUtils.isEmpty(token)) {
                 log.error("未携带Token，禁止访问接口" + ((HttpServletRequest) request).getRequestURI());

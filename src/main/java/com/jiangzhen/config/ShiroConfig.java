@@ -38,7 +38,7 @@ public class ShiroConfig {
         Map<String, String> filterRuleMap = new HashMap<>();
         filterRuleMap.put("/user/toLogin", "anon");
         filterRuleMap.put("/user/login", "anon");
-        filterRuleMap.put("/user/image", "anon");
+        filterRuleMap.put("/image", "anon");
         filterRuleMap.put("/layuimini/**", "anon");
 //        filterRuleMap.put("/favicon.ico", "anon");
 
