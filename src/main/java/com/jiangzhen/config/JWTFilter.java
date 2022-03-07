@@ -51,9 +51,11 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         String token = null;
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         Cookie[] cookies = httpServletRequest.getCookies();
-        for (int i = 0; i < cookies.length; i++) {
-            if ("token".equals(cookies[i].getName())){
-                token = cookies[i].getValue();
+        if (cookies != null){
+            for (int i = 0; i < cookies.length; i++) {
+                if ("token".equals(cookies[i].getName())){
+                    token = cookies[i].getValue();
+                }
             }
         }
         //2. 如果客户端没有携带token，拦下请求

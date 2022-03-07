@@ -1,7 +1,7 @@
 {
 	"homeInfo": {
 		"title": "首页",
-		"href": "page/welcome.html"
+		"href": "/toWelcome"
 	},
 	"logoInfo": {
 		"title": "人事管理系统",
@@ -77,7 +77,7 @@
 			"target": "_self",
 			"child": [{
 					"title": "操作员管理",
-					"href": "page/userList.html",
+					"href": "/toUserList",
 					"icon": "fa fa-cogs",
 					"target": "_self"
 				}

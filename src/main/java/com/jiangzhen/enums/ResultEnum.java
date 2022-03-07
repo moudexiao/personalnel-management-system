@@ -2,10 +2,7 @@ package com.jiangzhen.enums;
 
 import lombok.Getter;
 
-/**
- * @author: Jyf
- * @Date: 2021/1/25 10:04
- */
+
 @Getter
 public enum ResultEnum {
     SUCCESS(200, "成功"),

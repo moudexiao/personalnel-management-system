@@ -5,11 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author: zhaoyiming
- * @date: 2022-01-04 14:14
- * 实体类父类
- */
+
 @Data
 public class BasePo implements Serializable {
 

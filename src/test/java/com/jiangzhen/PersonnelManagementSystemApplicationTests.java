@@ -23,17 +23,18 @@ class PersonnelManagementSystemApplicationTests {
     @Test
     void productUser(){
         UserInput input = new UserInput();
-        input.setUsername("admin");
-        input.setPassword("admin");
+        input.setUsername("zhao");
+        input.setPassword("zhao");
+        input.setRoleId(3);
         String salt = JWTUtils.getSalt();
         String password = new Md5Hash(input.getPassword(), salt, 100).toHex();
         UserPo user = new UserPo();
         BeanUtils.copyProperties(input, user);
         user.setSalt(salt);
         user.setPassword(password);
-        user.setId(new Long("1"));
-        userService.update(user);
-//        userService.save(user);
+//        user.setId(new Long("2"));
+//        userService.update(user);
+        userService.save(user);
     }
 
 }

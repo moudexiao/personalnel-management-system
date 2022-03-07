@@ -10,10 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * @author: zhaoyiming
- * @date: 2022-02-11 16:48
- */
+
 @Controller
 public class DemoController {
 

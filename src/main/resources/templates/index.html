@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>职工人事后台管理系统</title>
+    <title>人事后台管理系统</title>
     <meta name="renderer" content="webkit" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta http-equiv="Access-Control-Allow-Origin" content="*" />
@@ -69,7 +69,7 @@
 
           <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item layuimini-setting">
-              <a href="javascript:;" id="user">admin1</a>
+              <a href="javascript:;" id="user">未登录</a>
               <dl class="layui-nav-child">
                 <dd>
                   <a href="javascript:;" class="login-out">退出登录</a>
@@ -157,19 +157,31 @@
             layer = layui.layer,
             miniAdmin = layui.miniAdmin,
             miniTongji = layui.miniTongji,
-            common = layui.common
+            common = layui.common;
 
           layer.ready(function () {
-            if (common.getToken() == undefined) {
-              window.location.href = '/login.html'
-            }
-            common.ajax(common.api + '/user/get', null, function (data) {
-              $('#user').html(
-                data.data + '<span class="layui-nav-more"></span>'
-              )
-            })
-          })
-
+                    if (common.getCookie('token') == null) {
+                      window.location.href = common.api + '/user/toLogin';
+                    }
+            $.ajax({
+              url: common.api + '/user/get',
+              type: 'get',
+              contentType: 'application/json; charset=utf-8',
+              timeout: 5000,
+              success: function (data) {
+                console.log(data);
+                if (data.code === 200) {
+                  $('#user').html(
+                          data.data + '<span class="layui-nav-more"></span>'
+                  )
+                }
+              },
+              error: function (data) {
+                console.log(data);
+                layer.msg('服务器异常')
+              }
+            });
+          });
           var options = {
             iniUrl: 'layuimini/api/init.json', // 初始化接口
             clearUrl: 'layuimini/api/clear.json', // 缓存清理接口
@@ -180,15 +192,15 @@
             loadingTime: 0, // 初始化加载时间
             pageAnim: true, // iframe窗口动画
             maxTabNum: 20, // 最大的tab打开数量
-          }
-          miniAdmin.render(options)
+          };
+          miniAdmin.render(options);
 
-          $('.login-out').on('click', function () {
-            layer.msg('退出登录成功', { time: 2000 }, function () {
-              common.setToken('')
-              window.location = '/login.html'
-            })
-          })
+          // $('.login-out').on('click', function () {
+          //   layer.msg('退出登录成功', { time: 2000 }, function () {
+          //     common.setToken('');
+          //     window.location = '/login.html'
+          //   })
+          // })
         }
       )
     </script>

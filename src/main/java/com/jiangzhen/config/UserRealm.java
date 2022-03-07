@@ -12,10 +12,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
-/**
- * @author: zhaoyiming
- * @date: 2022-02-11 16:13
- */
+
 
 public class UserRealm extends AuthorizingRealm {
 

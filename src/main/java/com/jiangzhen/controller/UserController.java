@@ -4,16 +4,19 @@ import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
+import com.github.pagehelper.PageInfo;
 import com.jiangzhen.common.utils.JWTUtils;
 import com.jiangzhen.config.JWTToken;
 import com.jiangzhen.enums.ResultEnum;
+import com.jiangzhen.po.RolePo;
 import com.jiangzhen.po.UserPo;
 import com.jiangzhen.service.UserService;
 import com.jiangzhen.vo.ResultVo;
+import com.jiangzhen.vo.UserVo;
 import com.jiangzhen.vo.input.UserInput;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -74,7 +78,7 @@ public class UserController {
 
     @PostMapping("/user/register")
 //    @RequiresRoles("admin")
-    public ResultVo add(@RequestBody @Valid UserInput input) {
+    public ResultVo add(@RequestBody @Valid UserInput input,HttpServletResponse response) {
         String salt = JWTUtils.getSalt();
         String password = new Md5Hash(input.getPassword(), salt, 100).toHex();
         UserPo user = new UserPo();
@@ -83,6 +87,11 @@ public class UserController {
         user.setPassword(password);
         userService.save(user);
         String token = JWTUtils.sign(user.getUsername(), password);
+        //把token放到浏览器cookie里面去
+        Cookie cookie = new Cookie("token", token);
+        cookie.setMaxAge(60*60*60);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return ResultVo.success(token);
     }
 
@@ -99,4 +108,32 @@ public class UserController {
         return "index.html";
     }
 
+    @RequestMapping("/user/get")
+    @ResponseBody
+    public ResultVo getUser() {
+        Subject subject = SecurityUtils.getSubject();
+        UserPo userpo = (UserPo) subject.getPrincipal();
+        return ResultVo.success(userpo.getUsername());
+    }
+    @RequestMapping("/user/list")
+    @ResponseBody
+    public ResultVo getUserList(@RequestParam(value = "page",defaultValue = "1") Integer page,@RequestParam(value = "size",defaultValue = "5") Integer size){
+       PageInfo<UserVo> userPage = userService.page(page,size);
+        return ResultVo.success(userPage);
+    }
+
+    @RequestMapping("/user/delete/{id}")
+    @ResponseBody
+    public ResultVo getUserInfo(@PathVariable Long id){
+        userService.deleteById(id);
+        return ResultVo.success();
+    }
+
+    @RequestMapping("/role/select")
+    @ResponseBody
+    public List<RolePo> role() {
+        System.out.println("进入角色");
+        List<RolePo> rolePoList = userService.roleList();
+        return rolePoList;
+    }
 }
