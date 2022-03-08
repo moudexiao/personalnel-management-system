@@ -11,8 +11,16 @@
         <result column="description" property="description"/>
         <result column="permission" property="permission"/>
     </resultMap>
+    <resultMap type="com.jiangzhen.vo.RoleVo" id="roleVoMap">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="permission" property="permission"/>
+    </resultMap>
     <sql id="Base_Column_List">
-        id, create_time, update_time, 'name', description, permission
+        id, create_time, update_time, name, description, permission
     </sql>
 
     <insert id="save" parameterType="com.jiangzhen.po.RolePo" useGeneratedKeys="true" keyProperty="id">
@@ -55,9 +63,9 @@
         where id = #{id}
     </select>
 
-    <select id="findAll" resultMap="roleMap">
+    <select id="findAll" resultMap="roleVoMap">
         select
-        <include refid="Base_Column_List"/>
-         from role
+       <include refid="Base_Column_List"/>
+        from role
     </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.jiangzhen.dao;
 
 import com.jiangzhen.po.RolePo;
+import com.jiangzhen.vo.RoleVo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,5 +22,6 @@ public interface RoleDao {
 
     RolePo findById(Long id);
 
-    List<RolePo> findAll();
+    List<RoleVo> findAll();
+
 }

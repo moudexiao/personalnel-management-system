@@ -9,6 +9,7 @@ import java.util.Date;
 @Data
 public class BasePo implements Serializable {
 
+    private static final long serialVersionUID = -4337096965231088641L;
     private Long id;
 
     private Date createTime;

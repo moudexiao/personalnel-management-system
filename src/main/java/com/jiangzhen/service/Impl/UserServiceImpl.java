@@ -2,9 +2,7 @@ package com.jiangzhen.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.jiangzhen.dao.RoleDao;
 import com.jiangzhen.dao.UserDao;
-import com.jiangzhen.po.RolePo;
 import com.jiangzhen.po.UserPo;
 import com.jiangzhen.service.UserService;
 import com.jiangzhen.vo.UserVo;
@@ -20,8 +18,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
-    @Autowired
-    private RoleDao roleDao;
 
     @Override
     public UserPo findByUsername(String username) {
@@ -52,8 +48,19 @@ public class UserServiceImpl implements UserService {
         return userDao.deleteById(id);
     }
 
+
     @Override
-    public List<RolePo> roleList() {
-        return roleDao.findAll();
+    public int batchDelete(List<Long> ids) {
+        return userDao.batchDelete(ids);
+    }
+
+    @Override
+    public UserPo findById(Long id) {
+        return userDao.findById(id);
+    }
+
+    @Override
+    public List<UserVo> findAll() {
+        return userDao.findAll();
     }
 }

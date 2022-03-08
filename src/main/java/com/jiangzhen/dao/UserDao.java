@@ -21,7 +21,6 @@ public interface UserDao {
 
     UserPo findById(Long id);
 
-    List<UserPo> findByRoleId(Long roleId);
 
     List<UserVo> findAll();
 }

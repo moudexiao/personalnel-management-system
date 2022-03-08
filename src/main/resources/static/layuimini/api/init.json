@@ -14,8 +14,8 @@
 			"href": "",
 			"target": "_self",
 			"child": [{
-				"title": "员工管理",
-				"href": "page/personal.html",
+				"title": "档案管理",
+				"href": "/toPersonal",
 				"icon": "fa fa-male",
 				"target": "_self"
 			}]

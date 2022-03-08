@@ -12,7 +12,7 @@ public class UserInput {
     @NotBlank(message = "密码必填")
     private String password;
 
-    private Integer roleId;
+    private Long roleId;
     private String code;
     private String timestamp;
 }

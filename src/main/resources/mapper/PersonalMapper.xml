@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangzhen.dao.PersonalDao">
+    <resultMap type="com.jiangzhen.po.PersonalPo" id="personalMap">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="pname" property="pname"/>
+        <result column="gender" property="gender"/>
+        <result column="birthday" property="birthday"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="identity" property="identity"/>
+        <result column="education" property="education"/>
+        <result column="school" property="school"/>
+        <result column="img_url" property="imgUrl"/>
+        <result column="work_status" property="workStatus"/>
+        <result column="department_id" property="departmentId"/>
+        <result column="position_id" property="positionId"/>
+        <result column="beigin_date" property="beginDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, `pname`, gender, birthday, phone, email, `identity`, education, school, img_url,
+        work_status, department_id, position_id, begin_date, create_time, update_time
+    </sql>
+
+    <insert id="save" parameterType="com.jiangzhen.po.PersonalPo" useGeneratedKeys="true" keyProperty="id">
+        insert into personal(create_time, update_time, pname, gender, birthday, phone,
+                              email, identity, education, school, img_url, work_status,
+                              department_id, postion_id, begin_id)
+                    values(#{createTime}, #{updateTime}, #{pname}, #{gender},
+                          #{birthday}, #{phone}, #{email}, #{identity},
+                          #{education}, #{school}, #{imgUrl}, #{workStatus},
+                          #{departmentId}, #{positionId}, #{beginDate}, )
+    </insert>
+
+    <update id="update" parameterType="com.jiangzhen.po.PersonalPo">
+        update personal
+        <set>
+            <if test="name != null">
+                `pname` = #{pname},
+            </if>
+            <if test="gender != null">
+                gender = #{gender},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="phone != null">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="identity != null">
+                `identity` = #{identity},
+            </if>
+            <if test="education != null">
+                education = #{education},
+            </if>
+            <if test="school != null">
+                school = #{school},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl},
+            </if>
+            <if test="workStatus != null">
+                work_status = #{workStatus},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId},
+            </if>
+            <if test="positionId != null">
+                position_id = #{positionId},
+            </if>
+            <if test="beginDate != null">
+                begin_date = #{beginDate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete from personal
+        where id = #{id}
+    </delete>
+
+    <delete id="batchDelete">
+        delete from personal
+        where id in
+        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="selectByName" resultMap="personalMap">
+        select
+        <include refid="Base_Column_List"/>
+          from personal
+          where pname = #{pname}
+    </select>
+
+    <select id="selectByStatus" resultMap="personalMap">
+        select
+        <include refid="Base_Column_List"/>
+        from personal
+        where work_status = #{workStatus}
+    </select>
+
+    <select id="findAll" resultMap="com.jiangzhen.vo.PersonalVo">
+        select p.*
+        p.create_time as createTime,
+        p.update_time as updateTime,
+        p.img_url as imgUrl,
+        p.work_status as workStatus,
+        p.position_id as postionId,
+        p.begin_date as beginDate,
+        d.id as departmentId,
+        d.department_name as departmentName
+        from personal p left join department d on p.department_id = d.id
+    </select>
+</mapper>

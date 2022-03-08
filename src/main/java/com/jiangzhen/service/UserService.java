@@ -1,7 +1,6 @@
 package com.jiangzhen.service;
 
 import com.github.pagehelper.PageInfo;
-import com.jiangzhen.po.RolePo;
 import com.jiangzhen.po.UserPo;
 import com.jiangzhen.vo.UserVo;
 
@@ -46,8 +45,14 @@ public interface UserService {
 
 
     /**
-     * 查询角色
+     * 根据id批量删除
+     * @param ids
      * @return
      */
-    List<RolePo> roleList();
+
+    int batchDelete(List<Long> ids);
+
+    UserPo findById(Long id);
+
+    List<UserVo> findAll();
 }

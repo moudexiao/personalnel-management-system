@@ -14,4 +14,8 @@ public class PageController {
     public String toUserList(){
         return "userList.html";
     }
+    @GetMapping("/toPersonal")
+    public String toPersonal(){
+        return "personal.html";
+    }
 }

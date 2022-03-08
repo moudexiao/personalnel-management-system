@@ -8,10 +8,11 @@ import com.github.pagehelper.PageInfo;
 import com.jiangzhen.common.utils.JWTUtils;
 import com.jiangzhen.config.JWTToken;
 import com.jiangzhen.enums.ResultEnum;
-import com.jiangzhen.po.RolePo;
 import com.jiangzhen.po.UserPo;
+import com.jiangzhen.service.RoleService;
 import com.jiangzhen.service.UserService;
 import com.jiangzhen.vo.ResultVo;
+import com.jiangzhen.vo.RoleVo;
 import com.jiangzhen.vo.UserVo;
 import com.jiangzhen.vo.input.UserInput;
 import org.apache.shiro.SecurityUtils;
@@ -24,6 +25,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -34,6 +36,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     /**
      * 验证码过期时间 60s
@@ -77,6 +82,7 @@ public class UserController {
     }
 
     @PostMapping("/user/register")
+    @ResponseBody
 //    @RequiresRoles("admin")
     public ResultVo add(@RequestBody @Valid UserInput input,HttpServletResponse response) {
         String salt = JWTUtils.getSalt();
@@ -87,12 +93,22 @@ public class UserController {
         user.setPassword(password);
         userService.save(user);
         String token = JWTUtils.sign(user.getUsername(), password);
-        //把token放到浏览器cookie里面去
-        Cookie cookie = new Cookie("token", token);
-        cookie.setMaxAge(60*60*60);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-        return ResultVo.success(token);
+        return ResultVo.success();
+    }
+
+    @PostMapping("/user/edit/{id}")
+//    @RequiresRoles("admin")
+    @ResponseBody
+    public ResultVo edit(@RequestBody @Valid UserInput input, @PathVariable(value = "id") Long id, HttpServletRequest request,HttpServletResponse response) {
+
+        String salt = JWTUtils.getSalt();
+        String password = new Md5Hash(input.getPassword(), salt, 100).toHex();
+        UserPo user = userService.findById(id);
+        BeanUtils.copyProperties(input, user);
+        user.setSalt(salt);
+        user.setPassword(password);
+        userService.update(user);
+        return ResultVo.success();
     }
 
     @GetMapping("/image")
@@ -122,18 +138,17 @@ public class UserController {
         return ResultVo.success(userPage);
     }
 
-    @RequestMapping("/user/delete/{id}")
+    @RequestMapping("/role/list")
     @ResponseBody
-    public ResultVo getUserInfo(@PathVariable Long id){
-        userService.deleteById(id);
-        return ResultVo.success();
+    public ResultVo getRoleName() {
+        List<RoleVo> roleName = roleService.findAll();
+        return ResultVo.success(roleName);
     }
 
-    @RequestMapping("/role/select")
+    @RequestMapping("/user/delete")
     @ResponseBody
-    public List<RolePo> role() {
-        System.out.println("进入角色");
-        List<RolePo> rolePoList = userService.roleList();
-        return rolePoList;
+    public ResultVo batchDelete(@RequestBody List<Long> ids){
+       userService.batchDelete(ids);
+        return ResultVo.success();
     }
 }
