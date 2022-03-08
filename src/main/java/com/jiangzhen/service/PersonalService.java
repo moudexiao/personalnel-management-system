@@ -1,5 +1,6 @@
 package com.jiangzhen.service;
 
+import com.github.pagehelper.PageInfo;
 import com.jiangzhen.po.PersonalPo;
 import com.jiangzhen.vo.PersonalVo;
 import org.springframework.stereotype.Service;
@@ -55,4 +56,7 @@ public interface PersonalService {
      * @return
      */
     List<PersonalVo> findAll();
+
+    PageInfo<PersonalVo> page(Integer page, Integer size);
+
 }

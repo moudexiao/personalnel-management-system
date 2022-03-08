@@ -1,5 +1,7 @@
 package com.jiangzhen.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.jiangzhen.dao.PersonalDao;
 import com.jiangzhen.po.PersonalPo;
 import com.jiangzhen.service.PersonalService;
@@ -48,7 +50,15 @@ public class PersonalServiceImpl implements PersonalService {
     }
 
     @Override
-    public List<PersonalVo> findAll() {
+    public List<PersonalVo> findAll(){
         return personalDao.findAll();
     }
+
+    @Override
+    public PageInfo<PersonalVo> page(Integer page, Integer size) {
+        PageHelper.startPage(page,size);
+        PageInfo<PersonalVo> pageInfo = new PageInfo<>(personalDao.findAll());
+        return pageInfo;
+    }
+
 }

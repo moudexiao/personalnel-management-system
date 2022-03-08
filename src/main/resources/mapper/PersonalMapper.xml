@@ -109,7 +109,7 @@
         where work_status = #{workStatus}
     </select>
 
-    <select id="findAll" resultMap="com.jiangzhen.vo.PersonalVo">
+    <select id="findAll" resultMap="personalMap">
         select p.*
         p.create_time as createTime,
         p.update_time as updateTime,

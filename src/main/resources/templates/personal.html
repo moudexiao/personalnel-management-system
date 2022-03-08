@@ -769,7 +769,7 @@
           var selectData
           layer.ready(function () {
             //select 部门数据动态加载
-            common.ajax(
+            $.ajax(
               common.api + '/department/select',
               null,
               function (data) {
@@ -797,7 +797,7 @@
 
           function positionSelect(departmentId) {
             var selectPosition
-            common.ajax(
+            $.ajax(
               common.api + '/position/select/' + departmentId,
               null,
               function (data) {

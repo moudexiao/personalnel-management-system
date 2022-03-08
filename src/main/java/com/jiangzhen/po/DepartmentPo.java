@@ -3,7 +3,7 @@ package com.jiangzhen.po;
 import lombok.Data;
 
 @Data
-public class DepartmentPo {
+public class DepartmentPo extends BasePo{
     /**
      * 部门名称
      */

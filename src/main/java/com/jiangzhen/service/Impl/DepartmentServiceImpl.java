@@ -7,6 +7,7 @@ import com.jiangzhen.vo.DepartmentVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,11 +29,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public int save(DepartmentPo department) {
+            department.setCreateTime(new Date());
         return departmentDao.save(department);
     }
 
     @Override
     public int update(DepartmentPo department) {
+        department.setUpdateTime(new Date());
         return departmentDao.update(department);
     }
 
