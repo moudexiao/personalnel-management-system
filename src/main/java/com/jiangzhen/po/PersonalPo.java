@@ -10,7 +10,7 @@ public class PersonalPo extends BasePo{
     /**
      * 员工姓名
      */
-    private String pname;
+    private String personalName;
 
     /**
      * 性别1：男，2：女
@@ -60,12 +60,12 @@ public class PersonalPo extends BasePo{
     /**
      * 部门id
      */
-    private Integer departmentId;
+    private Long departmentId;
 
     /**
      * 职位id
      */
-    private Integer positionId;
+    private Long positionId;
 
     /**
      * 入职时间

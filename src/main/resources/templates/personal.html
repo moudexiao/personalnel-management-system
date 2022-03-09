@@ -92,9 +92,9 @@
             </button>
             <button
               class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn"
-              lay-event="delete"
+              lay-event="batchdDelete"
             >
-              删除
+              批量删除
             </button>
             <button
               class="layui-btn layui-btn-sm layui-btn-sucess"
@@ -151,7 +151,7 @@
                 >
                 <div class="layui-input-inline">
                   <input
-                    name="name"
+                    name="personalName"
                     placeholder="请输入姓名"
                     class="layui-input"
                     lay-verType="tips"
@@ -378,7 +378,7 @@
                   align: 'center',
                 },
                 {
-                  field: 'name',
+                  field: 'personalName',
                   width: 100,
                   title: '姓名',
                   align: 'center',
@@ -486,6 +486,7 @@
                   toolbar: '#currentTableBar',
                   align: 'center',
                 },
+
               ],
             ],
             parseData: function (res) {
@@ -517,7 +518,7 @@
             if (obj.event === 'add') {
               // 监听添加操作
               showEditModel()
-            } else if (obj.event === 'delete') {
+            } else if (obj.event === 'batchdDelete') {
               // 监听删除操作
               var data = table.checkStatus('currentTableId').data
               if (data.length === 0) {
@@ -534,7 +535,7 @@
                 where: { departmentId: 0 },
               })
             } else if (obj.event === 'export') {
-              common.ajax(common.api + '/personal/all', null, function (res) {
+              $.ajax(common.api + '/personal/all', null, function (res) {
                 var data = res.data
                 $.each(data, function (index, item) {
                   if (item.gender == 1) {
@@ -556,7 +557,7 @@
                 console.log(data)
                 data = excel.filterExportData(data, [
                   'id',
-                  'name',
+                  'personalName',
                   'gender',
                   'birthday',
                   'phone',
@@ -571,7 +572,7 @@
                 ])
                 data.unshift({
                   id: '员工编号',
-                  name: '员工姓名',
+                  personalName: '员工姓名',
                   gender: '性别',
                   birthday: '出生日期',
                   phone: '联系电话',
@@ -605,7 +606,8 @@
             if (obj.event === 'edit') {
               showEditModel(obj.data)
             } else if (obj.event === 'delete') {
-              doDel([obj.data.id])
+              var data = [obj.data.id]
+              doDel(data);
             }
           })
 
@@ -675,12 +677,15 @@
                 form.on('submit(userEditSubmit)', function (data) {
                   console.log(data.field)
                   var loadIndex = layer.load(2)
-                  common.ajax(
-                    formData
-                      ? common.api + '/personal/' + formData.id
-                      : common.api + '/personal',
-                    JSON.stringify(data.field),
-                    function (res) {
+                  $.ajax({
+                   url: formData
+                      ? common.api + '/personal/edit/' + formData.id
+                      : common.api + '/personal/add',
+                    type:'post',
+                    contentType: 'application/json; charset=utf-8',
+                    timeout: 5000,
+                    data:JSON.stringify(data.field),
+                    success:function (res) {
                       layer.close(loadIndex)
                       if (res.code === 200) {
                         layer.close(dIndex)
@@ -690,12 +695,12 @@
                         layer.msg(res.msg, { icon: 2 })
                       }
                     },
-                    formData ? 'put' : 'post',
-                    function (data) {
+
+                    error:function (data) {
                       layer.close(loadIndex)
                       layer.msg(data.msg, { icon: 2 })
                     }
-                  )
+                  } )
                   return false
                 })
 
@@ -715,27 +720,28 @@
               },
               function (i) {
                 var index = layer.load(2)
-                common.ajax(
-                  common.api + '/personal',
-                  JSON.stringify(ids),
-                  function (res) {
-                    if (res.code === 200) {
-                      layer.close(index)
-                      layer.msg(res.msg, { icon: 1 })
+                $.ajax({
+                  url: common.api + '/personal/delete',
+                  type: 'post',
+                  contentType: 'application/json; charset=utf-8',
+                  timeout: 5000,
+                  data: JSON.stringify(ids),
+                  success: function (data) {
+                    console.log(data);
+                    if (data.code == 200) {
+                      layer.close(index);
+                      layer.msg(data.msg, {icon: 1});
                       tableIns.reload()
                     } else {
-                      layer.close(index)
-                      layer.msg(res.msg, { icon: 2 })
+                      layer.close(index);
+                      layer.msg(data.msg, { icon: 2 })
                     }
                   },
-                  'DELETE',
-                  function (data) {
+                  error: function (data) {
                     console.log(data)
-                    layer.close(index)
-                    layer.msg(data.msg, { icon: 2, time: 1000 })
-                    return
+                    layer.msg('服务器异常')
                   }
-                )
+                });
                 layer.close(i)
               }
             )
@@ -753,7 +759,7 @@
               where: param,
             })
             return false
-          })
+          });
 
           // 监听编辑页面 部门选择框
           form.on('select(selectDepartment)', function (data) {
@@ -762,25 +768,29 @@
             $.each(selectPosition, function (index, item) {
               var option = new Option(item.positionName, item.id)
               $('#positionId').append(option)
-            })
+            });
             form.render('select')
-          })
+          });
 
-          var selectData
+          var selectData;
+
           layer.ready(function () {
             //select 部门数据动态加载
-            $.ajax(
-              common.api + '/department/select',
-              null,
-              function (data) {
+            $.ajax({
+             url: common.api + '/department/select',
+              type: 'get',
+              contentType: 'application/json; charset=utf-8',
+              timeout: 5000,
+              success:function (data) {
                 selectData = data.data
                 $.each(selectData, function (index, item) {
                   var option = new Option(item.departmentName, item.id)
                   $('#selectId').append(option)
                 })
                 form.render('select')
+
               }
-            )
+            } );
             // 监听重置操作
             $('#data-reset-btn').click(function () {
               $('#personalName').val('')
@@ -793,7 +803,7 @@
                 where: { departmentId: 0, workStatus: 0, personalName: '' },
               })
             })
-          })
+          });
 
           function positionSelect(departmentId) {
             var selectPosition
@@ -806,7 +816,7 @@
               'get',
               null,
               false
-            )
+            );
             return selectPosition
           }
         }

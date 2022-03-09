@@ -57,6 +57,18 @@ public interface PersonalService {
      */
     List<PersonalVo> findAll();
 
+    /**
+     * 分页
+     * @param page
+     * @param size
+     * @return
+     */
     PageInfo<PersonalVo> page(Integer page, Integer size);
 
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    PersonalPo findById(Long id);
 }

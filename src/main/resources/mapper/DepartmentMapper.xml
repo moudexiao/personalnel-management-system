@@ -18,7 +18,7 @@
     <insert id="save" parameterType="com.jiangzhen.po.DepartmentPo" useGeneratedKeys="true" keyProperty="id">
         insert into department (department_name, description, create_time,
       update_time)
-    values (#{departmentNameR}, #{description}, #{createTime},
+    values (#{departmentName}, #{description}, #{createTime},
       #{updateTime})
     </insert>
 
@@ -49,9 +49,11 @@
         where department_name = #{departmentName}
     </select>
 
-    <select id="findAll" resultMap="departmentMap">
-        select
-        <include refid="Base_Column_List"/>
+    <select id="findAll" resultType="com.jiangzhen.vo.DepartmentVo">
+        select department.*,
+        department.department_name as departmentName,
+        department.create_time as createTime,
+        department.update_time as updateTime
         from department
     </select>
 </mapper>

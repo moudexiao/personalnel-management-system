@@ -57,4 +57,11 @@ public interface PersonalDao {
      */
     List<PersonalVo> findAll();
 
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    PersonalPo findById(Long id);
+
 }

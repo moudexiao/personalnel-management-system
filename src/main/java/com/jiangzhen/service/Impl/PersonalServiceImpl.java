@@ -61,4 +61,9 @@ public class PersonalServiceImpl implements PersonalService {
         return pageInfo;
     }
 
+    @Override
+    public PersonalPo findById(Long id) {
+        return personalDao.findById(id);
+    }
+
 }
