@@ -20,7 +20,7 @@ public interface DepartmentService {
      * @param departmentName
      * @return
      */
-    int selectByDepartmentName(String departmentName);
+    DepartmentVo selectByDepartmentName(String departmentName);
 
     /**
      * 添加员工信息
@@ -49,4 +49,6 @@ public interface DepartmentService {
      * @return
      */
     int batchDelete(List<Long> ids);
+
+    DepartmentPo selectById(Long id);
 }

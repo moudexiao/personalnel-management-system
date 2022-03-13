@@ -24,7 +24,7 @@ public class PersonalServiceImpl implements PersonalService {
     }
 
     @Override
-    public int update(PersonalPo personal) {
+    public int update(PersonalVo personal) {
         personal.setUpdateTime(new Date());
         return personalDao.update(personal);
     }
@@ -62,7 +62,7 @@ public class PersonalServiceImpl implements PersonalService {
     }
 
     @Override
-    public PersonalPo findById(Long id) {
+    public PersonalVo findById(Long id) {
         return personalDao.findById(id);
     }
 

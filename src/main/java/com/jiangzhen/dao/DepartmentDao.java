@@ -21,7 +21,9 @@ public interface DepartmentDao {
     int batchDelete(List<Long> ids);
 
     //根据部门名称查询
-    int selectByDepartmentName(String departmentName);
+    DepartmentVo selectByDepartmentName(String departmentName);
+
+    DepartmentPo selectById(Long id);
 
     //查询全部信息
     List<DepartmentVo> findAll();

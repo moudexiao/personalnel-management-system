@@ -21,7 +21,7 @@ public interface PersonalService {
      * @param personal
      * @return
      */
-    int update(PersonalPo personal);
+    int update(PersonalVo personal);
 
     /**
      * 根据id删除
@@ -70,5 +70,5 @@ public interface PersonalService {
      * @param id
      * @return
      */
-    PersonalPo findById(Long id);
+    PersonalVo findById(Long id);
 }

@@ -18,4 +18,9 @@ public class PageController {
     public String toPersonal(){
         return "personal.html";
     }
+
+    @GetMapping("/toPersonalReward")
+    public String toPersonalReward(){
+        return "personalReward.html";
+    }
 }

@@ -108,6 +108,8 @@ public class UserController {
         user.setSalt(salt);
         user.setPassword(password);
         userService.update(user);
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.getPrincipal();
         return ResultVo.success();
     }
 

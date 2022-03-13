@@ -37,7 +37,7 @@
     <delete id="batchDelete">
         delete from department
         where id in
-        <foreach collection="idList" item="item" open="(" close=")" separator=",">
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
             #{item}
         </foreach>
     </delete>
@@ -49,6 +49,14 @@
         where department_name = #{departmentName}
     </select>
 
+    <select id="selectById" resultMap="departmentMap">
+        select department_name,
+        department.department_name as departmentName,
+        department.create_time as createTime,
+        department.update_time as updateTime
+        from department
+        where id = #{id}
+    </select>
     <select id="findAll" resultType="com.jiangzhen.vo.DepartmentVo">
         select department.*,
         department.department_name as departmentName,

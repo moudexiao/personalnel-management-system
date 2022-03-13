@@ -20,7 +20,7 @@ public class DepartmentController {
     @ResponseBody
     public ResultVo departmentSelect(){
        List<DepartmentVo> departmentNames =  departmentService.findAll();
-       System.out.println(departmentNames);
+//       System.out.println(departmentNames);
         return ResultVo.success(departmentNames);
     }
 }

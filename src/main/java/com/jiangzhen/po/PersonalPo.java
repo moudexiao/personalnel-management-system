@@ -15,7 +15,7 @@ public class PersonalPo extends BasePo{
     /**
      * 性别1：男，2：女
      */
-    private int gender;
+    private Long gender;
 
     /**
      * 出生日期
@@ -55,7 +55,7 @@ public class PersonalPo extends BasePo{
     /**
      * 工作状态：1:正式 2:试用 3:实习 4:离职
      */
-    private int workStatus;
+    private Long workStatus;
 
     /**
      * 部门id

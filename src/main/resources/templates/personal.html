@@ -167,6 +167,8 @@
                     type="text"
                     name="birthday"
                     id="birty"
+                    timeFormat="yyyy-MM-dd"
+                    placeholder="yyyy-MM-dd"
                     autocomplete="off"
                     class="layui-input"
                   />
@@ -535,7 +537,7 @@
                 where: { departmentId: 0 },
               })
             } else if (obj.event === 'export') {
-              $.ajax(common.api + '/personal/all', null, function (res) {
+              $.ajax(common.api + '/personal/allExport', null, function (res) {
                 var data = res.data
                 $.each(data, function (index, item) {
                   if (item.gender == 1) {
@@ -625,12 +627,13 @@
                 if (formData) {
                   $('#demoPic').attr('src', formData.imgUrl) //图片链接（base64）
                 }
-                console.log(formData)
+
                 //加载日期
                 laydate.render({
                   elem: '#birty',
                   value: formData ? formData.birthday : '',
-                })
+                });
+                console.log(formData.birthday);
                 //普通图片上传
                 var indexI
                 var uploadInst = upload.render({
@@ -807,16 +810,13 @@
 
           function positionSelect(departmentId) {
             var selectPosition
-            $.ajax(
-              common.api + '/position/select/' + departmentId,
-              null,
-              function (data) {
+            $.ajax({
+             url: common.api + '/position/select/' + departmentId,
+             type: 'get',
+             success: function (data) {
                 selectPosition = data.data
               },
-              'get',
-              null,
-              false
-            );
+            });
             return selectPosition
           }
         }

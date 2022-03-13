@@ -36,9 +36,12 @@
                           #{departmentId}, #{positionId}, #{beginDate})
     </insert>
 
-    <update id="update" parameterType="com.jiangzhen.po.PersonalPo">
+    <update id="update" parameterType="com.jiangzhen.vo.PersonalVo">
         update personal
         <set>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
             <if test="personalName != null">
                 `personal_name` = #{personalName},
             </if>
@@ -109,7 +112,7 @@
         where work_status = #{workStatus}
     </select>
 
-    <select id="findById" resultMap="personalMap">
+    <select id="findById" resultType="com.jiangzhen.vo.PersonalVo">
         select p.*,
         p.personal_name as personalName,
         p.create_time as createTime,

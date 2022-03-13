@@ -18,7 +18,14 @@
 				"href": "/toPersonal",
 				"icon": "fa fa-male",
 				"target": "_self"
-			}]
+				},
+				{
+					"title": "考勤管理",
+					"href": "/toAttendance",
+					"icon": "fa fa-male",
+					"target": "_self"
+				}
+			]
 		},
 		{
 			"title": "部门管理",
@@ -58,7 +65,7 @@
 				},
 				{
 					"title": "奖惩管理",
-					"href": "page/personalReward.html",
+					"href": "/toPersonalReward",
 					"icon": "fa fa-television",
 					"target": "_self"
 				},

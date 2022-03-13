@@ -45,8 +45,11 @@ public class PersonalController {
     @RequestMapping("/personal/edit/{id}")
     @ResponseBody
     public ResultVo edit(@RequestBody @Valid PersonalInput input, @PathVariable(value = "id") Long id, HttpServletRequest request, HttpServletResponse response){
-        PersonalPo personal = personalService.findById(id);
+        System.out.println(input);
+        PersonalVo personal = personalService.findById(id);
+//        System.out.println(personal);
         BeanUtils.copyProperties(input, personal);
+//        System.out.println(personal);
         personalService.update(personal);
         return ResultVo.success();
     }
@@ -55,8 +58,18 @@ public class PersonalController {
     @ResponseBody
     public ResultVo add(@RequestBody @Valid PersonalInput input,HttpServletResponse response){
         PersonalPo personalPo = new PersonalPo();
+//        System.out.println(input);
         BeanUtils.copyProperties(input, personalPo);
+//        System.out.println(personalPo);
         personalService.save(personalPo);
         return ResultVo.success();
+    }
+
+    @GetMapping("/personal/select")
+    @ResponseBody
+    public ResultVo getName(){
+        List<PersonalVo> all = personalService.findAll();
+      //  System.out.println(all);
+        return ResultVo.success(all);
     }
 }

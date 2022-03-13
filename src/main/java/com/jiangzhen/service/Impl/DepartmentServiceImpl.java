@@ -23,7 +23,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public int selectByDepartmentName(String departmentName) {
+    public DepartmentVo selectByDepartmentName(String departmentName) {
         return departmentDao.selectByDepartmentName(departmentName);
     }
 
@@ -47,5 +47,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public int batchDelete(List<Long> ids) {
         return departmentDao.batchDelete(ids);
+    }
+
+    @Override
+    public DepartmentPo selectById(Long id) {
+        return departmentDao.selectById(id);
     }
 }
