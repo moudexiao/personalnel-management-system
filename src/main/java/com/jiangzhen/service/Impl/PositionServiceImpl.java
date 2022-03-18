@@ -35,17 +35,17 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public int selectById(Long id) {
+    public PositionVo selectById(Long id) {
         return positionDao.selectById(id);
     }
 
     @Override
-    public int selectByPositionName(String positionName) {
+    public PositionVo selectByPositionName(String positionName) {
         return positionDao.selectByPositionName(positionName);
     }
 
     @Override
-    public List<PositionVo> selectAll() {
-        return positionDao.selectAll();
+    public List<PositionVo> selectAll(Long departmentId) {
+        return positionDao.selectAll(departmentId);
     }
 }

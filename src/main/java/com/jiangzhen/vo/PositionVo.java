@@ -16,4 +16,5 @@ public class PositionVo {
     private String positionName;
     private String description;
     private Long departmentId;
+    private String departmentName;
 }

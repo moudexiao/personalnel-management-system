@@ -633,7 +633,6 @@
                   elem: '#birty',
                   value: formData ? formData.birthday : '',
                 });
-                console.log(formData.birthday);
                 //普通图片上传
                 var indexI
                 var uploadInst = upload.render({
@@ -815,9 +814,9 @@
              type: 'get',
              success: function (data) {
                 selectPosition = data.data
-              },
+              }
             });
-            return selectPosition
+            return selectPosition;
           }
         }
       )

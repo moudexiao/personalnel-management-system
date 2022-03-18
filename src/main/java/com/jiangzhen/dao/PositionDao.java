@@ -42,18 +42,20 @@ public interface PositionDao {
      * @param id
      * @return
      */
-    int selectById(Long id);
+    PositionVo selectById(Long id);
 
     /**
      * 根据职位名称查询
      * @param positionName
      * @return
      */
-    int selectByPositionName(String positionName);
+    PositionVo selectByPositionName(String positionName);
+
 
     /**
-     * 查询全部
+     * 根据部门id查询
+     * @param departmentId
      * @return
      */
-    List<PositionVo> selectAll();
+    List<PositionVo> selectAll(Long departmentId);
 }

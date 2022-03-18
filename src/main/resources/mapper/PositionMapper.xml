@@ -11,4 +11,68 @@
         <result column="descrption" property="description"/>
         <result column="department_id" property="departmentId"/>
     </resultMap>
+
+    <insert id="save" parameterType="com.jiangzhen.po.PositionPo" useGeneratedKeys="true" keyProperty="id">
+        insert into position(position_name, description, department_id, create_time, update_time)
+                    values(#{positionName}, #{description}, #{departmentId}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="update" parameterType="com.jiangzhen.po.PositionPo">
+        update position
+        <set>
+            <if test="positionName != null">
+                position_name = #{positionName},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePositionById">
+        delete from position where id = #{id}
+    </delete>
+
+    <delete id="batchDeletePosition">
+        delete from position
+        where id in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="selectById" resultType="com.jiangzhen.vo.PositionVo">
+        select p.*,
+        p.position_name as positionName,
+        p.create_time as createTime,
+        p.update_time as updateTime,
+        d.id as departmentId
+        from position p left join department d on p.department_id = d.id
+        where id = #{id}
+    </select>
+
+    <select id="selectByPositionName" resultType="com.jiangzhen.vo.PositionVo">
+           select p.*,
+        p.position_name as positionName,
+        p.create_time as createTime,
+        p.update_time as updateTime,
+        d.id as departmentId
+        from position p left join department d on p.department_id = d.id
+        where p.position_name = #{positionName}
+    </select>
+
+    <select id="selectAll" resultType="com.jiangzhen.vo.PositionVo">
+        select p.*,
+        p.position_name as positionName,
+        p.create_time as createTime,
+        p.update_time as updateTime,
+        d.id as departmentId,
+        d.department_name as departmentName
+        from position p left join department d on p.department_id = d.id
+        where p.department_id = #{departmentId}
+    </select>
 </mapper>
