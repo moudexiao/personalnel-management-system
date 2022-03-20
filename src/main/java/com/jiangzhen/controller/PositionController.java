@@ -25,8 +25,7 @@ public class PositionController {
     @GetMapping("/position/select/{departmentId}")
     @ResponseBody
     public ResultVo getPosition(@RequestBody @PathVariable(value = "departmentId") Long departmentId){
-        List<PositionVo> positionVo = positionService.selectAll(departmentId);
-
+        List<PositionVo> positionVo =  positionService.selectAll(departmentId);
         return ResultVo.success(positionVo);
     }
 }

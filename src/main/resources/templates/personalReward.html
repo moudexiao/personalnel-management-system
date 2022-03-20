@@ -390,7 +390,9 @@
                 where: { departmentName: '', personalId: 0, year: 0, month: 0 },
               })
             } else if (obj.event === 'export') {
-              $.ajax(common.api + '/reward/all', null, function (res) {
+              $.ajax({
+                url:common.api + '/reward/all',
+                 success:  function (res) {
                 var data = res.data
                 $.each(data, function (index, item) {
                   if (item.rewardKind == 1) {
@@ -433,7 +435,8 @@
 
                 var spent = (timeend - timestart) / 1000
                 layer.msg('单纯导出耗时 ' + spent + ' s')
-              })
+              }
+            });
             }
           })
 

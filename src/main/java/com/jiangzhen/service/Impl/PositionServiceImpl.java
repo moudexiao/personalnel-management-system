@@ -48,4 +48,9 @@ public class PositionServiceImpl implements PositionService {
     public List<PositionVo> selectAll(Long departmentId) {
         return positionDao.selectAll(departmentId);
     }
+
+    @Override
+    public PositionVo selectByDepartmentId(Long departmentId) {
+        return positionDao.selectByDepartmentId(departmentId);
+    }
 }

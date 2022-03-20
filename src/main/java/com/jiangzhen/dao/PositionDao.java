@@ -57,5 +57,7 @@ public interface PositionDao {
      * @param departmentId
      * @return
      */
-    List<PositionVo> selectAll(Long departmentId);
+   List<PositionVo>  selectAll(Long departmentId);
+
+    PositionVo selectByDepartmentId(Long departmentId);
 }

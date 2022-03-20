@@ -54,16 +54,17 @@ public class PersonalServiceImpl implements PersonalService {
         return personalDao.findAll();
     }
 
-    @Override
-    public PageInfo<PersonalVo> page(Integer page, Integer size) {
-        PageHelper.startPage(page,size);
-        PageInfo<PersonalVo> pageInfo = new PageInfo<>(personalDao.findAll());
-        return pageInfo;
-    }
 
     @Override
     public PersonalVo findById(Long id) {
         return personalDao.findById(id);
+    }
+
+    @Override
+    public PageInfo<PersonalVo> page(Integer page, Integer size, Long departmentId, String personalName, Integer workStatus) {
+        PageHelper.startPage(page,size);
+        PageInfo<PersonalVo> pageInfo = new PageInfo<>(personalDao.queryAll(departmentId, personalName, workStatus));
+        return pageInfo;
     }
 
 }

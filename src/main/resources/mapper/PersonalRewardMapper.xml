@@ -19,9 +19,9 @@
     </sql>
 
     <insert id="save" parameterType="com.jiangzhen.po.PersonalRewardPo" useGeneratedKeys="true" keyProperty="id">
-        insert into personal_reward(personal_id, personal_name, department_name, reward_date,
+        insert into personal_reward(personal_id, personal_name, department_name, position_name, reward_date,
                                     reward_kind, reward_amount, description)
-                    values(#{personalId},#{personalName}, #{departmentName}, #{rewardDate},
+                    values(#{personalId},#{personalName}, #{departmentName}, #{positionName}, #{rewardDate},
                            #{rewardKind}, #{rewardAmount}, #{description})
     </insert>
 
@@ -92,5 +92,31 @@
                pr.reward_amount as rewardAmount
         from personal_reward pr left join personal p on pr.personal_id = p.id left join department d on pr.department_name = d.department_name
               left join position ps on pr.position_name = ps.position_name
+    </select>
+
+    <select id="selectByCondition" resultType="com.jiangzhen.vo.PersonalRewardVo">
+         select pr.*,
+               pr.personal_id as personalId,
+               pr.personal_name as personalName,
+               pr.position_name as positionName,
+               pr.department_name as departmentName,
+               pr.reward_date as rewardDate,
+               pr.reward_kind as rewardKind,
+               pr.reward_amount as rewardAmount
+        from personal_reward pr
+              left join personal p on pr.personal_id = p.id
+              left join department d on pr.department_name = d.department_name
+              left join position ps on pr.position_name = ps.position_name
+        <where>
+            <if test="departmentName!=null">
+                and pr.department_name like "%"#{departmentName}"%"
+            </if>
+            <if test="personalId!=0">
+                and pr.personal_id = #{personalId}
+            </if>
+            <if test="year!=0 and month!=0">
+                and year(reward_date)=#{year} and month(reward_date)=#{month}
+            </if>
+        </where>
     </select>
 </mapper>

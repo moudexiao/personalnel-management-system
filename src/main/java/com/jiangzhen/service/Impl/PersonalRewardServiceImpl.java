@@ -53,9 +53,10 @@ public class PersonalRewardServiceImpl implements PersonalRewardService {
     }
 
     @Override
-    public PageInfo<PersonalRewardVo> page(Integer page, Integer size) {
+    public PageInfo<PersonalRewardVo> page(Integer page, Integer size, String departmentName, Integer personalId, Integer year, Integer month) {
         PageHelper.startPage(page,size);
-        PageInfo<PersonalRewardVo> pageInfo = new PageInfo<>(rewardDao.selectAll());
+        PageInfo<PersonalRewardVo> pageInfo = new PageInfo<>(rewardDao.selectByCondition(departmentName,personalId,year,month));
         return pageInfo;
     }
+
 }

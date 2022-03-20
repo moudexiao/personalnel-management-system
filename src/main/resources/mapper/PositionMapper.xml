@@ -49,10 +49,9 @@
         select p.*,
         p.position_name as positionName,
         p.create_time as createTime,
-        p.update_time as updateTime,
-        d.id as departmentId
-        from position p left join department d on p.department_id = d.id
-        where id = #{id}
+        p.update_time as updateTime
+        from position p
+        where p.id = #{id}
     </select>
 
     <select id="selectByPositionName" resultType="com.jiangzhen.vo.PositionVo">
@@ -75,4 +74,17 @@
         from position p left join department d on p.department_id = d.id
         where p.department_id = #{departmentId}
     </select>
+
+    <!--<select id="selectByDepartmentId" resultType="com.jiangzhen.vo.PersonalRewardVo">-->
+                <!--select p.*,-->
+        <!--p.position_name as positionName,-->
+        <!--p.create_time as createTime,-->
+        <!--p.update_time as updateTime,-->
+        <!--d.id as departmentId,-->
+        <!--d.department_name as departmentName-->
+        <!--from position p-->
+        <!--left join department d on p.department_id = d.id-->
+        <!--left join personal pe on p.id = pe.position_id-->
+        <!--where p.department_id = #{departmentId} and p.id = pe.position_id-->
+    <!--</select>-->
 </mapper>

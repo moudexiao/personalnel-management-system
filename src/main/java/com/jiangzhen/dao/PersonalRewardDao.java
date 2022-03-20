@@ -2,6 +2,7 @@ package com.jiangzhen.dao;
 
 import com.jiangzhen.po.PersonalRewardPo;
 import com.jiangzhen.vo.PersonalRewardVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -57,4 +58,5 @@ public interface PersonalRewardDao {
      */
     List<PersonalRewardVo> selectAll();
 
+    List<PersonalRewardVo> selectByCondition(@Param("departmentName") String departmentName,@Param("personalId") Integer personalId,@Param("year") Integer year, @Param("month") Integer month);
 }

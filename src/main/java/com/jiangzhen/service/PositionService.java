@@ -56,4 +56,6 @@ public interface PositionService {
      * @return
      */
     List<PositionVo> selectAll(Long departmentId);
+
+    PositionVo selectByDepartmentId(Long departmentId);
 }

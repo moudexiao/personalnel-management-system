@@ -2,6 +2,7 @@ package com.jiangzhen.dao;
 
 import com.jiangzhen.po.PersonalPo;
 import com.jiangzhen.vo.PersonalVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -63,5 +64,8 @@ public interface PersonalDao {
      * @return
      */
     PersonalVo findById(Long id);
+
+    List<PersonalVo> queryAll(@Param("departmentId") Long departmentId, @Param("personalName") String personalName, @Param("workStatus") Integer workStatus);
+
 
 }

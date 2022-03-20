@@ -119,7 +119,7 @@
         p.update_time as updateTime,
         p.img_url as imgUrl,
         p.work_status as workStatus,
-        p.position_id as postionId,
+        p.position_id as positionId,
         p.begin_date as beginDate,
         d.id as departmentId
         from personal p left join department d on p.department_id = d.id
@@ -135,7 +135,38 @@
         p.position_id as postionId,
         p.begin_date as beginDate,
         d.id as departmentId,
-        d.department_name as departmentName
-        from personal p left join department d on p.department_id = d.id
+        d.department_name as departmentName,
+        s.position_name as positionName
+        from personal p
+             left join department d on p.department_id = d.id
+             left join position s on p.position_id=s.id
+    </select>
+
+    <select id="queryAll" resultType="com.jiangzhen.vo.PersonalVo">
+        select p.*,
+        p.personal_name as personalName,
+        p.create_time as createTime,
+        p.update_time as updateTime,
+        p.img_url as imgUrl,
+        p.work_status as workStatus,
+        p.position_id as positionId,
+        p.begin_date as beginDate,
+        d.id as departmentId,
+        d.department_name as departmentName,
+        s.position_name as positionName
+        from personal p
+        left join department d on p.department_id = d.id
+        left join position s on p.position_id=s.id
+        <where>
+            <if test="departmentId!=0">
+                and p.department_id = #{departmentId}
+            </if>
+            <if test="personalName!=null">
+                and p.personal_name like "%"#{personalName}"%"
+            </if>
+            <if test="workStatus!=0">
+                and p.work_status = #{workStatus}
+            </if>
+        </where>
     </select>
 </mapper>

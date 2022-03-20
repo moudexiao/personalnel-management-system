@@ -18,31 +18,6 @@
 				"href": "/toPersonal",
 				"icon": "fa fa-male",
 				"target": "_self"
-				},
-				{
-					"title": "考勤管理",
-					"href": "/toAttendance",
-					"icon": "fa fa-male",
-					"target": "_self"
-				}
-			]
-		},
-		{
-			"title": "部门管理",
-			"icon": "fa fa-address-card",
-			"href": "",
-			"target": "_self",
-			"child": [{
-					"title": "部门管理",
-					"href": "page/department.html",
-					"icon": "fa fa-address-card-o",
-					"target": "_self"
-				},
-				{
-					"title": "部门岗位管理",
-					"href": "page/position.html",
-					"icon": "fa fa-id-card",
-					"target": "_self"
 				}
 			]
 		},
@@ -51,15 +26,10 @@
 			"icon": "fa fa-users",
 			"href": "",
 			"target": "_self",
-			"child": [{
-					"title": "招聘管理",
-					"href": "page/recruitment.html",
-					"icon": "fa fa-user-plus",
-					"target": "_self"
-				},
+			"child": [
 				{
 					"title": "培训管理",
-					"href": "page/personalTrain.html",
+					"href": "/toPersonalTrain",
 					"icon": "fa fa-graduation-cap",
 					"target": "_self"
 				},
@@ -71,8 +41,20 @@
 				},
 				{
 					"title": "薪资管理",
-					"href": "page/personalSalary.html",
+					"href": "/toPersonalSalary",
 					"icon": "fa fa-envelope",
+					"target": "_self"
+				},
+				{
+					"title": "考勤管理",
+					"href": "",
+					"icon": "fa fa-id-card",
+					"target": "_self"
+				},
+				{
+					"title": "请假管理",
+					"href": "",
+					"icon": "fa fa-user-plus",
 					"target": "_self"
 				}
 			]

@@ -6,8 +6,10 @@ import com.jiangzhen.po.PersonalRewardPo;
 import com.jiangzhen.service.DepartmentService;
 import com.jiangzhen.service.PersonalRewardService;
 import com.jiangzhen.service.PersonalService;
+import com.jiangzhen.service.PositionService;
 import com.jiangzhen.vo.PersonalRewardVo;
 import com.jiangzhen.vo.PersonalVo;
+import com.jiangzhen.vo.PositionVo;
 import com.jiangzhen.vo.ResultVo;
 import com.jiangzhen.vo.input.RewardInput;
 import org.springframework.beans.BeanUtils;
@@ -30,15 +32,18 @@ public class PersonalRewardController {
     @Autowired
     private DepartmentService departmentService;
 
+    @Autowired
+    private PositionService positionService;
+
     @GetMapping("/reward/list")
     @ResponseBody
     public ResultVo getRewardList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                   @RequestParam(value = "size", defaultValue = "10") Integer size,
                                   @RequestParam(value = "departmentName", required = false) String departmentName,
-                                  @RequestParam(value = "personalId", defaultValue = "0") Long personalId,
+                                  @RequestParam(value = "personalId", defaultValue = "0") Integer personalId,
                                   @RequestParam(value = "year", defaultValue = "0") Integer year,
                                   @RequestParam(value = "month", defaultValue = "0") Integer month){
-        PageInfo<PersonalRewardVo> personalRewardVoPageInfo= personalRewardService.page(page,size);
+        PageInfo<PersonalRewardVo> personalRewardVoPageInfo= personalRewardService.page(page,size,departmentName,personalId,year,month);
         personalRewardService.selectAll();
 //        personalRewardService.selectById(personalId);
         return ResultVo.success(personalRewardVoPageInfo);
@@ -60,11 +65,12 @@ public class PersonalRewardController {
        PersonalVo personalVo = personalService.findById(input.getPersonalId());
 
         DepartmentPo departmentName = departmentService.selectById(personalVo.getDepartmentId());
+        PositionVo positionVo = positionService.selectById(personalVo.getPositionId());
 
         rewardPo.setDepartmentName(departmentName.getDepartmentName());
         rewardPo.setPersonalName(personalVo.getPersonalName());
-//
-
+        rewardPo.setPositionName(positionVo.getPositionName());
+//        System.out.println(rewardPo);
 //       System.out.println(departmentName);
 //
 //       BeanUtils.copyProperties(departmentName,input);
@@ -89,5 +95,11 @@ public class PersonalRewardController {
         personalRewardService.update(reward);
 //        System.out.println(reward);
         return ResultVo.success();
+    }
+
+    @GetMapping("/reward/all")
+    @ResponseBody
+    public ResultVo getAll(){
+        return ResultVo.success(personalRewardService.selectAll());
     }
 }

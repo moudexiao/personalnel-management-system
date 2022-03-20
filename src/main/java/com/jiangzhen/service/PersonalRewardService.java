@@ -57,5 +57,6 @@ public interface PersonalRewardService {
      */
     List<PersonalRewardVo> selectAll();
 
-    PageInfo<PersonalRewardVo> page(Integer page, Integer size);
+
+    PageInfo<PersonalRewardVo> page(Integer page, Integer size, String departmentName, Integer personalId, Integer year, Integer month);
 }

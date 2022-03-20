@@ -27,10 +27,12 @@ public class PersonalController {
 
     @GetMapping("/personal/list")
     @ResponseBody
-    public ResultVo getPersonalList(@RequestParam(value = "page",defaultValue = "1") Integer page, @RequestParam(value = "size",defaultValue = "10") Integer size,
-                                    @RequestParam(value = "departmentId", defaultValue = "0") Long departmentId, @RequestParam(value = "personalName", required = false) String personalName,
-                                    @RequestParam(value = "workStatus", defaultValue = "0") Long workStatus){
-            PageInfo<PersonalVo> personalVos= personalService.page(page,size);
+    public ResultVo getPersonalList(@RequestParam(value = "page",defaultValue = "1") Integer page,
+                                    @RequestParam(value = "size",defaultValue = "10") Integer size,
+                                    @RequestParam(value = "departmentId", defaultValue = "0") Long departmentId,
+                                    @RequestParam(value = "personalName", required = false) String personalName,
+                                    @RequestParam(value = "workStatus", defaultValue = "0") Integer workStatus){
+            PageInfo<PersonalVo> personalVos= personalService.page(page,size,departmentId,personalName,workStatus);
             personalService.findAll();
             return ResultVo.success(personalVos);
     }
@@ -71,5 +73,11 @@ public class PersonalController {
         List<PersonalVo> all = personalService.findAll();
       //  System.out.println(all);
         return ResultVo.success(all);
+    }
+
+    @GetMapping("/personal/all")
+    @ResponseBody
+    public ResultVo getAll(){
+        return ResultVo.success(personalService.findAll());
     }
 }
