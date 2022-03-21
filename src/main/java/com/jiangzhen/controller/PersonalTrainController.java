@@ -92,7 +92,7 @@ public class PersonalTrainController {
     @RequestMapping("/train/all")
     @ResponseBody
     public ResultVo getAll(){
-        personalTrainService.selectAll();
-        return ResultVo.success();
+        ;
+        return ResultVo.success(personalTrainService.selectAll());
     }
 }
