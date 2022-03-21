@@ -23,4 +23,14 @@ public class PageController {
     public String toPersonalReward(){
         return "personalReward.html";
     }
+
+    @GetMapping("/toPersonalTrain")
+    public String toPersonalTrain(){
+        return "personalTrain.html";
+    }
+
+    @GetMapping("/toPersonalSalary")
+    public String toPersonalSalary(){
+        return "personalSalary.html";
+    }
 }
