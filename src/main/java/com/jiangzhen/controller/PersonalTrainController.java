@@ -63,7 +63,7 @@ public class PersonalTrainController {
         personalTrainPo.setPositionName(positionVo.getPositionName());
 
         personalTrainService.save(personalTrainPo);
-        return null;
+        return ResultVo.success();
     }
 
     @RequestMapping("/train/edit/{id}")

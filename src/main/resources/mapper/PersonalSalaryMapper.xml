@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangzhen.dao.PersonalSalaryDao">
+    <resultMap type="com.jiangzhen.po.PersonalSalary" id="salaryMap">
+        <result column="id" property="id"/>
+        <result column="personal_id" property="personalId"/>
+        <result column="personal_name" property="personalName"/>
+        <result column="department_name" property="departmentName"/>
+        <result column="position_name" property="positionName"/>
+        <result column="salary_date" property="salaryDate"/>
+        <result column="basis_salary" property="basisSalary"/>
+        <result column="subsidy_salary" property="subsidySalary"/>
+        <result column="social_salary" property="socialSalary"/>
+        <result column="provident_fund" property="providentFund"/>
+        <result column="bonus" property="bonus"/>
+        <result column="all_salary" property="allSalary"/>
+    </resultMap>
+
+    <select id="selectByCondition" resultMap="salaryMap">
+      select s.*,
+              s.personal_id as personalId,
+              s.personal_name as personalName,
+              s.department_name as departmentName,
+              s.position_name as positionName,
+              s.salary_date as salaryDate,
+              s.basis_salary as basisSalary,
+              s.subsidy_salary as subsidySalary,
+              s.social_salary as socialSalary,
+              s.provident_fund as providentFund,
+              s.all_salary as allSalary
+      from personal_salary s
+      left join personal p on s.personal_id = p.id
+      left join department d on s.department_name = d.department_name
+      left join position ps on s.position_name = ps.position_name
+        <where>
+            <if test="departmentName!=null">
+                and s.department_name = #{departmentName}
+            </if>
+            <if test="personalId!=0">
+                and s.personal_id = #{personalId}
+            </if>
+            <if test="year!=0 and month!=0">
+                and YEAR(salary_date)=#{year} and MONTH(salary_date)=#{month}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectById" resultMap="salaryMap">
+        select s.*,
+              s.personal_id as personalId,
+              s.personal_name as personalName,
+              s.department_name as departmentName,
+              s.position_name as positionName,
+              s.salary_date as salaryDate,
+              s.basis_salary as basisSalary,
+              s.subsidy_salary as subsidySalary,
+              s.social_salary as socialSalary,
+              s.provident_fund as providentFund,
+              s.all_salary as allSalary
+      from personal_salary s
+      left join personal p on s.personal_id = p.id
+      left join department d on s.department_name = d.department_name
+      left join position ps on s.position_name = ps.position_name
+      where s.id = #{id}
+    </select>
+
+    <select id="selectAll" resultMap="salaryMap">
+        select s.*,
+              s.personal_id as personalId,
+              s.personal_name as personalName,
+              s.department_name as departmentName,
+              s.position_name as positionName,
+              s.salary_date as salaryDate,
+              s.basis_salary as basisSalary,
+              s.subsidy_salary as subsidySalary,
+              s.social_salary as socialSalary,
+              s.provident_fund as providentFund,
+              s.all_salary as allSalary
+      from personal_salary s
+      left join personal p on s.personal_id = p.id
+      left join department d on s.department_name = d.department_name
+      left join position ps on s.position_name = ps.position_name
+    </select>
+
+    <insert id="save" parameterType="com.jiangzhen.po.PersonalSalary" useGeneratedKeys="true" keyProperty="id">
+        insert into personal_salary(personal_id, personal_name, department_name, position_name, salary_date, basis_salary,
+                                    subsidy_salary, social_salary, provident_fund, bonus, all_salary)
+                            values(#{personalId}, #{personalName}, #{departmentName}, #{positionName}, #{salaryDate},
+                             #{basisSalary}, #{subsidySalary}, #{socialSalary}, #{providentFund}, #{bonus}, #{allSalary})
+    </insert>
+    
+    <update id="update">
+        update personal_salary
+        <set>
+            <if test="personalId != null">
+                personal_id = #{personalId},
+            </if>
+            <if test="personalName != null">
+                personal_name = #{personalName},
+            </if>
+            <if test="departmentName != null">
+                department_name = #{departmentName},
+            </if>
+            <if test="positionName != null">
+                position_name = #{positionName},
+            </if>
+            <if test="salaryDate != null">
+                salary_date = #{salaryDate},
+            </if>
+            <if test="basisSalary != null">
+                basis_salary = #{basisSalary},
+            </if>
+            <if test="subsidySalary != null">
+                subsidy_salary = #{subsidySalary},
+            </if>
+            <if test="socialSalary != null">
+                social_salary = #{socialSalary},
+            </if>
+            <if test="providentFund != null">
+                provident_fund = #{providentFund},
+            </if>
+            <if test="bonus != null">
+                bonus = #{bonus,jdbcType=DECIMAL},
+            </if>
+            <if test="allSalary != null">
+                all_salary = #{allSalary},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="batchDelete">
+        delete from personal_salary
+        where id in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

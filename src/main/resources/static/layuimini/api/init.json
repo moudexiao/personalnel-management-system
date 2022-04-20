@@ -47,13 +47,13 @@
 				},
 				{
 					"title": "考勤管理",
-					"href": "",
+					"href": "/toAttendance",
 					"icon": "fa fa-id-card",
 					"target": "_self"
 				},
 				{
 					"title": "请假管理",
-					"href": "",
+					"href": "/toLeave",
 					"icon": "fa fa-user-plus",
 					"target": "_self"
 				}
