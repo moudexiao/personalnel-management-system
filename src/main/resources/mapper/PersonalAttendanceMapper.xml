@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiangzhen.dao.PersonalAttendanceDao">
+    <resultMap type="com.jiangzhen.po.PersonalAttendancePo" id="attendanceMap">
+        <result column="id" property="id"/>
+        <result column="personal_id" property="personalId"/>
+        <result column="personal_name" property="personalName"/>
+        <result column="department_name" property="departmentName"/>
+        <result column="position_name" property="positionName"/>
+        <result column="attendance_time" property="attendanceTime"/>
+        <result column="punch_in" property="punchIn"/>
+        <result column="clock_out" property="clockOut"/>
+    </resultMap>
+
+    <select id="selectByCondition" resultMap="attendanceMap">
+        select a.*,
+             a.personal_id as personalId,
+             a.personal_name as personalName,
+             a.department_name as departmentName,
+             a.position_name as positionName,
+             a.attendance_time as attendanceTime,
+             a.punch_in as punchIn,
+             a.clock_out as clockOut
+        from personal_attendance a
+        left join personal p on a.personal_id = p.id
+        left join department d on a.department_name = d.department_name
+        left join position ps on a.position_name = ps.position_name
+        <where>
+            <if test="departmentName!=null">
+                and a.department_name like "%"#{departmentName}"%"
+            </if>
+            <if test="personalId!=0">
+                and a.personal_id = #{personalId}
+            </if>
+            <if test="year!=0 and month!=0">
+                and year(attendance_time)=#{year} and month(attendance_time)=#{month}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectAll" resultMap="attendanceMap">
+        select a.*,
+             a.personal_id as personalId,
+             a.personal_name as personalName,
+             a.department_name as departmentName,
+             a.position_name as positionName,
+             a.attendance_time as attendanceTime,
+             a.punch_in as punchIn,
+             a.clock_out as clockOut
+        from personal_attendance a
+        left join personal p on a.personal_id = p.id
+        left join department d on a.department_name = d.department_name
+        left join position ps on a.position_name = ps.position_name
+    </select>
+
+    <select id="selectById" resultMap="attendanceMap">
+        select a.*,
+             a.personal_id as personalId,
+             a.personal_name as personalName,
+             a.department_name as departmentName,
+             a.position_name as positionName,
+             a.attendance_time as attendanceTime,
+             a.punch_in as punchIn,
+             a.clock_out as clockOut
+        from personal_attendance a
+        left join personal p on a.personal_id = p.id
+        left join department d on a.department_name = d.department_name
+        left join position ps on a.position_name = ps.position_name
+        where a.id = #{id}
+    </select>
+
+    <insert id="save" keyProperty="id" useGeneratedKeys="true" parameterType="com.jiangzhen.po.PersonalAttendancePo">
+        insert into personal_attendance(personal_id, personal_name, department_name, position_name,attendance_time,punch_in,clock_out)
+                    values(#{personalId}, #{personalName}, #{departmentName}, #{positionName}, #{attendanceTime}, #{punchIn}, #{clockOut})
+    </insert>
+
+    <update id="update" parameterType="com.jiangzhen.po.PersonalAttendancePo">
+        update personal_attendance
+        <set>
+            <if test="personalId != 0">
+                personal_id = #{personalId},
+            </if>
+            <if test="personalName != null">
+                personal_name = #{personalName},
+            </if>
+            <if test="departmentName != null">
+                department_name = #{departmentName},
+            </if>
+            <if test="positionName != null">
+                position_name = #{positionName},
+            </if>
+            <if test="attendanceTime != null">
+                attendance_time = #{attendanceTime},
+            </if>
+            <if test="punchIn != null">
+                punch_in = #{punchIn},
+            </if>
+            <if test="clockOut != null">
+                clock_out = #{clockOut},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="batchDelete">
+        delete from personal_attendance
+        where id in
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

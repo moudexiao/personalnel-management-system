@@ -33,4 +33,9 @@ public class PageController {
     public String toPersonalSalary(){
         return "personalSalary.html";
     }
+
+    @GetMapping("/toAttendance")
+    public String toAttendance(){
+        return "personalAttendance.html";
+    }
 }
