@@ -47,5 +47,5 @@ public interface PersonalSalaryDao {
      * 导出
      * @return
      */
-    PersonalSalary selectAll();
+   List<PersonalSalary>  selectAll();
 }

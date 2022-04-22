@@ -45,5 +45,5 @@ public interface PersonalSalaryService {
      * 导出
      * @return
      */
-    PersonalSalary selectAll();
+    List<PersonalSalary> selectAll();
 }

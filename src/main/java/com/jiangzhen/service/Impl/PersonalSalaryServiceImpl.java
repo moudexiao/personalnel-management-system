@@ -49,7 +49,7 @@ public class PersonalSalaryServiceImpl implements PersonalSalaryService {
     }
 
     @Override
-    public PersonalSalary selectAll() {
+    public List<PersonalSalary> selectAll() {
         return personalSalaryDao.selectAll();
     }
 

@@ -45,6 +45,7 @@ public class PersonalTrainController {
                             @RequestParam(value = "endDate",required = false)Date endDate){
 
         PageInfo<PersonalTrainPo> pageInfo = personalTrainService.page(page, size, departmentName, personalId, beginDate, endDate);
+        personalTrainService.selectAll();
         return ResultVo.success(pageInfo);
     }
 

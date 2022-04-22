@@ -45,6 +45,7 @@ public class PersonalSalaryController {
                             @RequestParam(value = "month", defaultValue = "0") Integer month){
 
         PageInfo<PersonalSalary> pageInfo = personalSalaryService.page(page, size, departmentName, personalId, year,month);
+//        personalSalaryService.selectAll();
         return ResultVo.success(pageInfo);
     }
 
