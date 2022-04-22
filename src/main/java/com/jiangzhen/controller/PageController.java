@@ -38,4 +38,9 @@ public class PageController {
     public String toAttendance(){
         return "personalAttendance.html";
     }
+
+    @GetMapping("/toLeave")
+    public String toLeave(){
+        return "personalLeave.html";
+    }
 }
