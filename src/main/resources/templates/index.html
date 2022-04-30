@@ -195,12 +195,12 @@
           };
           miniAdmin.render(options);
 
-          // $('.login-out').on('click', function () {
-          //   layer.msg('退出登录成功', { time: 2000 }, function () {
-          //     common.setToken('');
-          //     window.location = '/login.html'
-          //   })
-          // })
+          $('.login-out').on('click', function () {
+            layer.msg('退出登录成功', { time: 2000 }, function () {
+              // common.setToken('');
+              window.location.href = common.api + '/user/toLogin';
+            })
+          })
         }
       )
     </script>

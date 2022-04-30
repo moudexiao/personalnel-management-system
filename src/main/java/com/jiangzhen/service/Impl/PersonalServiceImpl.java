@@ -3,11 +3,14 @@ package com.jiangzhen.service.Impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.jiangzhen.dao.PersonalDao;
+import com.jiangzhen.enums.ResultEnum;
+import com.jiangzhen.exception.BaseException;
 import com.jiangzhen.po.PersonalPo;
 import com.jiangzhen.service.PersonalService;
 import com.jiangzhen.vo.PersonalVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -57,7 +60,12 @@ public class PersonalServiceImpl implements PersonalService {
 
     @Override
     public PersonalVo findById(Long id) {
-        return personalDao.findById(id);
+        PersonalVo byId = personalDao.findById(id);
+        if(ObjectUtils.isEmpty(byId))
+        {
+            throw new BaseException(ResultEnum.PERSONAL_SALARY_NOT_EXIST);
+        }
+        return byId;
     }
 
     @Override

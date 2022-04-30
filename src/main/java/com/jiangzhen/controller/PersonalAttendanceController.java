@@ -11,6 +11,8 @@ import com.jiangzhen.vo.PersonalVo;
 import com.jiangzhen.vo.PositionVo;
 import com.jiangzhen.vo.ResultVo;
 import com.jiangzhen.vo.input.AttendanceInput;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,6 +72,7 @@ public class PersonalAttendanceController {
 
     @RequestMapping("/attendance/edit/{id}")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo edit(@RequestBody @Valid AttendanceInput input, @PathVariable(value = "id") Long id){
        PersonalAttendancePo attendancePo = personalAttendanceService.selectById(id);
         BeanUtils.copyProperties(input,attendancePo);
@@ -90,6 +93,7 @@ public class PersonalAttendanceController {
 
     @RequestMapping("/attendance/delete")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo batchDelete(@RequestBody List<Long> ids){
         personalAttendanceService.batchDelete(ids);
         return ResultVo.success();

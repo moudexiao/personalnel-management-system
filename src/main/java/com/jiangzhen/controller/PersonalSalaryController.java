@@ -11,6 +11,8 @@ import com.jiangzhen.vo.PersonalVo;
 import com.jiangzhen.vo.PositionVo;
 import com.jiangzhen.vo.ResultVo;
 import com.jiangzhen.vo.input.SalaryInput;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,6 +53,7 @@ public class PersonalSalaryController {
 
     @RequestMapping("/salary/add")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo addInfo(@RequestBody @Valid SalaryInput input){
 
         PersonalVo personalVo = personalService.findById(input.getPersonalId());
@@ -85,6 +88,7 @@ public class PersonalSalaryController {
 
     @RequestMapping("/salary/edit/{id}")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo edit(@RequestBody @Valid SalaryInput input, @PathVariable(value = "id") Long id){
 
         //根据薪资id查询
@@ -106,6 +110,7 @@ public class PersonalSalaryController {
 
     @RequestMapping("/salary/delete")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo batchDelete(@RequestBody List<Long> ids){
         personalSalaryService.batchDelete(ids);
         return ResultVo.success();

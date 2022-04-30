@@ -12,6 +12,8 @@ import com.jiangzhen.vo.PersonalVo;
 import com.jiangzhen.vo.PositionVo;
 import com.jiangzhen.vo.ResultVo;
 import com.jiangzhen.vo.input.RewardInput;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,12 +53,14 @@ public class PersonalRewardController {
 
     @RequestMapping("/reward/delete")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo delete(@RequestBody List<Long> ids){
         personalRewardService.batchDeleteReward(ids);
         return ResultVo.success();
     }
     @RequestMapping("/reward/add")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo add(@RequestBody @Valid RewardInput input){
         PersonalRewardPo rewardPo = new PersonalRewardPo();
 
@@ -81,6 +85,7 @@ public class PersonalRewardController {
 
     @RequestMapping("/reward/edit/{id}")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo edit(@RequestBody @Valid RewardInput input, @PathVariable(value = "id") Long id,HttpServletRequest request, HttpServletResponse response){
         PersonalRewardPo reward = personalRewardService.selectById(id);
 //        System.out.println(reward);

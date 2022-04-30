@@ -11,6 +11,8 @@ import com.jiangzhen.vo.PersonalVo;
 import com.jiangzhen.vo.PositionVo;
 import com.jiangzhen.vo.ResultVo;
 import com.jiangzhen.vo.input.PersonalTrainInput;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,6 +53,7 @@ public class PersonalTrainController {
 
     @RequestMapping("/train/add")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo addInfo(@RequestBody @Valid PersonalTrainInput input){
         PersonalTrainPo personalTrainPo = new PersonalTrainPo();
         BeanUtils.copyProperties(input,personalTrainPo);
@@ -69,6 +72,7 @@ public class PersonalTrainController {
 
     @RequestMapping("/train/edit/{id}")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo edit(@RequestBody @Valid PersonalTrainInput input,@PathVariable(value = "id") Long id){
 
         PersonalTrainPo personalTrainPo = personalTrainService.selectById(id);
@@ -85,6 +89,7 @@ public class PersonalTrainController {
 
     @RequestMapping("/train/delete")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo delete(@RequestBody List<Long> ids){
         personalTrainService.batchDelete(ids);
         return ResultVo.success();

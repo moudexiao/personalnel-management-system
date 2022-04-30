@@ -16,6 +16,8 @@ import com.jiangzhen.vo.RoleVo;
 import com.jiangzhen.vo.UserVo;
 import com.jiangzhen.vo.input.UserInput;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
@@ -83,6 +85,7 @@ public class UserController {
 
     @PostMapping("/user/register")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
 //    @RequiresRoles("admin")
     public ResultVo add(@RequestBody @Valid UserInput input,HttpServletResponse response) {
         String salt = JWTUtils.getSalt();
@@ -99,6 +102,7 @@ public class UserController {
     @PostMapping("/user/edit/{id}")
 //    @RequiresRoles("admin")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo edit(@RequestBody @Valid UserInput input, @PathVariable(value = "id") Long id, HttpServletRequest request,HttpServletResponse response) {
 
         String salt = JWTUtils.getSalt();
@@ -149,6 +153,7 @@ public class UserController {
 
     @RequestMapping("/user/delete")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo batchDelete(@RequestBody List<Long> ids){
        userService.batchDelete(ids);
         return ResultVo.success();
