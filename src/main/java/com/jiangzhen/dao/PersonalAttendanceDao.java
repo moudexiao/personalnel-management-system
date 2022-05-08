@@ -4,6 +4,7 @@ import com.jiangzhen.po.PersonalAttendancePo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -55,4 +56,6 @@ public interface PersonalAttendanceDao {
      * @return
      */
     int batchDelete(List<Long> ids);
+
+    PersonalAttendancePo findByPersonalIdAndAttendanceTime(@Param("personalId") Long id, @Param("attendanceTime") Date attendanceTime);
 }

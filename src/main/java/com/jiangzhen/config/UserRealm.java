@@ -34,7 +34,7 @@ public class UserRealm extends AuthorizingRealm {
         UserPo user = (UserPo) principalCollection.getPrimaryPrincipal();
         RolePo role = roleDao.findById(user.getRoleId());
         authorizationInfo.addRole(role.getName());
-        authorizationInfo.addStringPermission(null);
+        authorizationInfo.addStringPermission(role.getPermission());
         return authorizationInfo;
     }
 

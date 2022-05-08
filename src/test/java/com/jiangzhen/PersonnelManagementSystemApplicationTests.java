@@ -25,7 +25,7 @@ class PersonnelManagementSystemApplicationTests {
         UserInput input = new UserInput();
         input.setUsername("yi");
         input.setPassword("yi");
-//        input.setRoleId(3);
+        input.setRoleId(new Long("1"));
         String salt = JWTUtils.getSalt();
         String password = new Md5Hash(input.getPassword(), salt, 100).toHex();
         UserPo user = new UserPo();

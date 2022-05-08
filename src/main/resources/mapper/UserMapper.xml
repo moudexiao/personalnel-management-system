@@ -12,15 +12,16 @@
         <result column="password" property="password"/>
         <result column="salt" property="salt"/>
         <result column="role_id" property="roleId"/>
+        <result column="personal_id" property="personalId"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, create_time, update_time, username, password, salt, role_id
+        id, create_time, update_time, username, password, salt, role_id, personal_id
     </sql>
 
     <insert id="save" parameterType="com.jiangzhen.po.UserPo" useGeneratedKeys="true" keyProperty="id">
-     insert into user (create_time, update_time, username, password, salt, role_id)
-        values (#{createTime}, #{updateTime}, #{username}, #{password}, #{salt},#{roleId})
+     insert into user (create_time, update_time, username, password, salt, role_id, personal_id)
+        values (#{createTime}, #{updateTime}, #{username}, #{password}, #{salt},#{roleId},#{personal_id})
     </insert>
 
     <update id="update" parameterType="com.jiangzhen.po.UserPo">

@@ -3,6 +3,7 @@ package com.jiangzhen.controller;
 import com.github.pagehelper.PageInfo;
 import com.jiangzhen.po.DepartmentPo;
 import com.jiangzhen.po.PersonalAttendancePo;
+import com.jiangzhen.po.UserPo;
 import com.jiangzhen.service.DepartmentService;
 import com.jiangzhen.service.PersonalAttendanceService;
 import com.jiangzhen.service.PersonalService;
@@ -10,7 +11,9 @@ import com.jiangzhen.service.PositionService;
 import com.jiangzhen.vo.PersonalVo;
 import com.jiangzhen.vo.PositionVo;
 import com.jiangzhen.vo.ResultVo;
+import com.jiangzhen.vo.input.AttendanceInOrOutInput;
 import com.jiangzhen.vo.input.AttendanceInput;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
@@ -103,5 +106,15 @@ public class PersonalAttendanceController {
     @ResponseBody
     public ResultVo getAll(){
         return ResultVo.success(personalAttendanceService.selectAll());
+    }
+
+    //todo 员工打卡接口
+    // 此接口参考请假接口,意思大概一致
+    @RequestMapping("/attendance/inOrOut")
+    @ResponseBody
+    public ResultVo inOrOut(@RequestBody @Valid AttendanceInOrOutInput input){
+        UserPo user = (UserPo) SecurityUtils.getSubject().getPrincipal();
+        personalAttendanceService.inOrOut(input, user);
+        return ResultVo.success();
     }
 }

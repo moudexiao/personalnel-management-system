@@ -70,6 +70,21 @@
         left join position ps on a.position_name = ps.position_name
         where a.id = #{id}
     </select>
+    <select id="findByPersonalIdAndAttendanceTime" resultMap="attendanceMap">
+        select a.*,
+             a.personal_id as personalId,
+             a.personal_name as personalName,
+             a.department_name as departmentName,
+             a.position_name as positionName,
+             a.attendance_time as attendanceTime,
+             a.punch_in as punchIn,
+             a.clock_out as clockOut
+        from personal_attendance a
+        left join personal p on a.personal_id = p.id
+        left join department d on a.department_name = d.department_name
+        left join position ps on a.position_name = ps.position_name
+        where a.personal_id = #{personalId} and a.attendance_time = #{attendanceTime}
+    </select>
 
     <insert id="save" keyProperty="id" useGeneratedKeys="true" parameterType="com.jiangzhen.po.PersonalAttendancePo">
         insert into personal_attendance(personal_id, personal_name, department_name, position_name,attendance_time,punch_in,clock_out)

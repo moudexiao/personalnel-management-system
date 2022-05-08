@@ -2,6 +2,8 @@ package com.jiangzhen.service;
 
 import com.github.pagehelper.PageInfo;
 import com.jiangzhen.po.PersonalAttendancePo;
+import com.jiangzhen.po.UserPo;
+import com.jiangzhen.vo.input.AttendanceInOrOutInput;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,4 +48,6 @@ public interface PersonalAttendanceService {
      * @return
      */
     int batchDelete(List<Long> ids);
+
+    void inOrOut(AttendanceInOrOutInput input, UserPo user);
 }

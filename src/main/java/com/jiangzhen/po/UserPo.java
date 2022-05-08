@@ -28,5 +28,7 @@ public class UserPo extends BasePo {
      */
     private Long roleId;
 
+    private Long personalId;
+
 
 }
