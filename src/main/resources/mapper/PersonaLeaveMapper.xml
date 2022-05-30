@@ -21,10 +21,8 @@
              a.personal_name as personalName,
              a.department_name as departmentName,
              a.position_name as positionName,
-             a.reason as reason,
              a.leave_time as leaveTime,
-             a.expiration_date as expirationDate,
-             a.status as status
+             a.expiration_date as expirationDate
         from personal_leave a
         left join personal p on a.personal_id = p.id
         left join department d on a.department_name = d.department_name
@@ -48,10 +46,8 @@
              a.personal_name as personalName,
              a.department_name as departmentName,
              a.position_name as positionName,
-             a.reason as reason,
              a.leave_time as leaveTime,
-             a.expiration_date as expirationDate,
-             a.status as status
+             a.expiration_date as expirationDate
         from personal_leave a
         left join personal p on a.personal_id = p.id
         left join department d on a.department_name = d.department_name
@@ -64,10 +60,8 @@
              a.personal_name as personalName,
              a.department_name as departmentName,
              a.position_name as positionName,
-             a.reason as reason,
              a.leave_time as leaveTime,
-             a.expiration_date as expirationDate,
-             a.status as status
+             a.expiration_date as expirationDate
         from personal_leave a
         left join personal p on a.personal_id = p.id
         left join department d on a.department_name = d.department_name

@@ -13,6 +13,8 @@ import com.jiangzhen.vo.PositionVo;
 import com.jiangzhen.vo.ResultVo;
 import com.jiangzhen.vo.input.LeaveInput;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,7 +58,7 @@ public class PersonalLeaveController {
     public ResultVo add(@RequestBody @Valid LeaveInput input){
 
         UserPo user = (UserPo) SecurityUtils.getSubject().getPrincipal();
-
+        System.out.println(user);
         PersonalLeavePo leavePo = new PersonalLeavePo();
 
         BeanUtils.copyProperties(input,leavePo);
@@ -84,6 +86,7 @@ public class PersonalLeaveController {
      */
     @RequestMapping("/leave/review/{id}/{status}")
     @ResponseBody
+    @RequiresRoles(value = {"管理员","部门经理", "部门主管"},logical = Logical.OR)
     public ResultVo review(@PathVariable(value = "status")  Integer status, @PathVariable(value = "id") Long id){
        PersonalLeavePo leavePo = personalLeaveService.selectById(id);
        leavePo.setStatus(status);

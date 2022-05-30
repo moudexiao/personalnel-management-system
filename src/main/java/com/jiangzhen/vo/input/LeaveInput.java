@@ -11,10 +11,10 @@ public class LeaveInput {
 
     @NotNull(message = "起始时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date punchIn;
+    private Date leaveTime;
     @NotNull(message = "结束时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date clockOut;
+    private Date expirationDate;
 
     /**
      * 1:'事假'2:病假' 3:'婚假' 4:'产假'

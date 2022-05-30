@@ -82,18 +82,12 @@
 
         <script type="text/html" id="toolbarDemo">
             <div class="layui-btn-container">
-                <!--<button-->
-                        <!--class="layui-btn layui-btn-normal layui-btn-sm"-->
-                        <!--lay-event="add"-->
-                <!--&gt;-->
-                    <!--添加-->
-                <!--</button>-->
-                <!--<button-->
-                        <!--class="layui-btn layui-btn-sm layui-btn-danger"-->
-                        <!--lay-event="delete"-->
-                <!--&gt;-->
-                    <!--批量删除-->
-                <!--</button>-->
+                <button
+                        class="layui-btn layui-btn-sm layui-btn-sucess"
+                        lay-event="add"
+                >
+                    发起请假
+                </button>
                 <button
                         class="layui-btn layui-btn-sm layui-btn-sucess"
                         lay-event="refresh"
@@ -167,8 +161,8 @@
                                     name="leaveTime"
                                     id="leaveTime"
                                     autocomplete="off"
-                                    timeFormat="yyyy-MM-dd"
-                                    placeholder="yyyy-MM-dd"
+                                    timeFormat="yyyy-MM-dd  HH:mm:ss"
+                                    placeholder="yyyy-MM-dd  HH:mm:ss"
                                     class="layui-input"
                                     lay-verType="tips"
                                     lay-verify="required"
@@ -301,14 +295,14 @@
                         },
 
                         {
-                            field: 'LeaveTime',
+                            field: 'leaveTime',
                             width: 300,
                             title: '请假日期',
                             align: 'center',
                             templet: function (d) {
                                 var time = layui.util.toDateString(
                                     d.LeaveTime,
-                                    'yyyy-MM-dd'
+                                    'yyyy-MM-dd  HH:mm:ss'
                                 )
                                 return '<div>' + time + '</div>'
                             },
@@ -322,7 +316,7 @@
                             templet: function (d) {
                                 var time = layui.util.toDateString(
                                     d.expirationDate,
-                                    'yyyy-MM-dd'
+                                    'yyyy-MM-dd  HH:mm:ss'
                                 )
                                 return '<div>' + time + '</div>'
                             },
@@ -477,71 +471,69 @@
                 }
             })
 
-            // function showEditModel(formData) {
-            //     console.log(formData);
-            //     var idx = layer.open({
-            //         type: 1,
-            //         area: ['50%', '50%'],
-            //         title: formData ? '编辑' : '添加',
-            //         anim: 1,
-            //         shade: 0.6,
-            //         content: $('#userEditDialog').html(),
-            //         success: function (layero, dIndex) {
-            //             // 回显表单数据
-            //             form.val('userEditForm', formData)
-            //             //加载日期
-            //             laydate.render({
-            //                 elem: '#leaveTime',
-            //                 format: 'yyyy-MM-dd',
-            //                 value: formData ?formData.leaveTime : '',
-            //             })
-            //             laydate.render({
-            //                 elem: '#expirationDate',
-            //                 format: 'yyyy-MM-dd',
-            //                 value: formData ?formData.expirationDate : '',
-            //             })
-            //             //职工select加载
-            //             $.each(personalDate, function (index, item) {
-            //                 var option = new Option(item.personalName, item.id)
-            //                 $('#personalId').append(option)
-            //             })
-            //             //设置select控件指定text的值为选中项
-            //             if (formData) {
-            //                 $('#personalId').val(formData.personalId)
-            //             }
-            //             form.render('select')
-            //             // 表单提交事件
-            //             form.on('submit(userEditSubmit)', function (data) {
-            //                 $.ajax({
-            //                     url:formData
-            //                         ? common.api + '/leave/edit/' + formData.id
-            //                         : common.api + '/leave/add',
-            //                     type: 'post',
-            //                     contentType:'application/json;charset=utf-8',
-            //                     data:JSON.stringify(data.field),
-            //                     success:function (res) {
-            //                         if (res.code === 200) {
-            //                             layer.close(dIndex)
-            //                             layer.msg(res.msg, { icon: 1 })
-            //                             table.reload('currentTableId')
-            //                         } else {
-            //                             layer.msg(res.msg, { icon: 2 })
-            //                         }
-            //                     },
-            //
-            //                     erorr: function (data) {
-            //                         layer.msg(data.msg, { icon: 2 })
-            //                     }
-            //                 } );
-            //                 return false
-            //             });
-            //
-            //             $('#Cancel').click(function () {
-            //                 layer.close(idx)
-            //             })
-            //         },
-            //     })
-            // }
+            function showEditModel(formData) {
+                console.log(formData);
+                var idx = layer.open({
+                    type: 1,
+                    area: ['50%', '50%'],
+                    title: formData ? '编辑' : '添加',
+                    anim: 1,
+                    shade: 0.6,
+                    content: $('#userEditDialog').html(),
+                    success: function (layero, dIndex) {
+                        // 回显表单数据
+                        form.val('userEditForm', formData)
+                        //加载日期
+                        laydate.render({
+                            elem: '#leaveTime',
+                            format: 'yyyy-MM-dd  HH:mm:ss',
+                            value: formData ?formData.leaveTime : '',
+                        })
+                        laydate.render({
+                            elem: '#expirationDate',
+                            format: 'yyyy-MM-dd  HH:mm:ss',
+                            value: formData ?formData.expirationDate : '',
+                        })
+                        //职工select加载
+                        $.each(personalDate, function (index, item) {
+                            var option = new Option(item.personalName, item.id)
+                            $('#personalId').append(option)
+                        })
+                        //设置select控件指定text的值为选中项
+                        if (formData) {
+                            $('#personalId').val(formData.personalId)
+                        }
+                        form.render('select')
+                        // 表单提交事件
+                        form.on('submit(userEditSubmit)', function (data) {
+                            $.ajax({
+                                url: common.api + '/leave/add',
+                                type: 'post',
+                                contentType:'application/json;charset=utf-8',
+                                data:JSON.stringify(data.field),
+                                success:function (res) {
+                                    if (res.code === 200) {
+                                        layer.close(dIndex)
+                                        layer.msg(res.msg, { icon: 1 })
+                                        table.reload('currentTableId')
+                                    } else {
+                                        layer.msg(res.msg, { icon: 2 })
+                                    }
+                                },
+
+                                erorr: function (data) {
+                                    layer.msg(data.msg, { icon: 2 })
+                                }
+                            } );
+                            return false
+                        });
+
+                        $('#Cancel').click(function () {
+                            layer.close(idx)
+                        })
+                    },
+                })
+            }
 
             function review(id, status) {
                 layer.confirm(
@@ -659,7 +651,7 @@
                 //加载日期
                 laydate.render({
                     elem: '#searchLeaveTime',
-                    format: 'yyyy-MM',
+                    format: 'yyyy-MM  HH:mm:ss',
                     type: 'month',
                     done: function (value) {
                         var date = value.split('-')
