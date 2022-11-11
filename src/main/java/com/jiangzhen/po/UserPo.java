@@ -30,5 +30,7 @@ public class UserPo extends BasePo {
 
     private Long personalId;
 
+    private Long personal_id;
+
 
 }
